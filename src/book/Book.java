@@ -23,6 +23,9 @@ public class Book {
     }
 
     public Book(String bookId, String Title, String author, String genre, int pubYear, int quantity){
+        if (bookId == null bookId.trim().isEmpty()){
+            throw new IllegalArgumentException("Book ID cannot be null or empty");
+        }
         this.bookId = bookId;
         this.Title = Title;
         this.author = author;
