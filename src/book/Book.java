@@ -15,15 +15,21 @@ public class Book {
     private String genre;
     private int pubYear;
     private int quantity;
-    private boolean isValiable;
+ 
+    
+    public Book()
+    {
+        
+    }
 
-    public Book(String bookId, String Title, String author, String author, String genre, int pubYear, int quantity){
+    public Book(String bookId, String Title, String author, String genre, int pubYear, int quantity){
         this.bookId = bookId;
         this.Title = Title;
         this.author = author;
         this.genre = genre;
         this.pubYear = pubYear;
         this.quantity = quantity;
+       
     }
     public String getbookId(){
         return bookId;
@@ -58,14 +64,12 @@ public class Book {
     public int getquantity(){
         return quantity;
     }
-    public void setquantity(int quantity){
-        if(>=0){
+    public void setquantity(){
+        if(this.quantity>=0){
             this.quantity = quantity;
         }else{
             System.out.println("Quantity cannot be negative");
         }
     }
-    public boolean isValiable(int quantity){
-        return isValiable > 0;
-    }
+  
 }
