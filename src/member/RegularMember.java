@@ -1,13 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package member;
 
-/**
- *
- * @author TRINH HUNG TUAN
- */
-public class RegularMember {
-    
+public class RegularMember extends Member {
+    private int limit;
+
+    public RegularMember(String memberId, String name, String phone, String email) {
+        super(memberId, name, phone, email);
+        this.limit = 3; 
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        if (limit <= 0) {
+            throw new IllegalArgumentException("Borrowing limit must be greater than 0!");
+        }
+        this.limit = limit;
+    }
+
+    @Override
+    public double calculateFine(int daysOverdue) {
+        if (daysOverdue < 0) {
+            throw new IllegalArgumentException("Days overdue cannot be negative!");
+        }
+        return daysOverdue * 5000.0; 
+    }
 }
