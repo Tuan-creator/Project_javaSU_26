@@ -10,48 +10,64 @@ package manage_libarary_system;
  */
 public class Manage_Libarary_System {
     private Book book;
-    private Member member;
     private BorrowingTransaction transaction;
 
-    public void addBook(Book book) {
+    public void addBook(Book book) throws Exception {
+        if (book == null) {
+            throw new Exception("Book cannot be null!");
+        }
+        if (book.getBookId() == null || book.getBookId().trim().isEmpty()) {
+            throw new Exception("Book ID cannot be empty!");
+        }
+        if (book.getTitle() == null || book.getTitle().trim().isEmpty()) {
+            throw new Exception("Book title cannot be empty!");
+        }
+        if (book.getQuantity() < 0) {
+            throw new Exception("Quantity cannot be negative!");
+        }
         this.book = book;
-        System.out.println("Book added successfully.");
+        System.out.println("Add book successfully!");
     }
 
-    public void registerMember(Member member) {
-        this.member = member;
-        System.out.println("Member added successfully.");
-    }
-
-    public void borrowBook(BorrowingTransaction transaction) {
-        if (book != null) {
-            if (book.getQuantity() > 0) {
-                book.setQuantity(book.getQuantity() - 1);
-                this.transaction = transaction;
-                System.out.println("Borrow book successfully.");
-            } else {
-                System.out.println("Book out of stock.");
-            }
-        } else {
-            System.out.println("No book found.");
+    public void borrowBook(BorrowingTransaction transaction)throws Exception {
+        if (transaction == null) {
+            throw new Exception("Transaction cannot be null!");
         }
-    }
-
-    public void returnBook() {
-        if (book != null) {
-            book.setQuantity(book.getQuantity() + 1);
-            System.out.println("Return successfully.");
-        } else {
-            System.out.println("No book found.");
+        if (book == null) {
+            throw new Exception("No book in library!");
         }
+        if (book.getQuantity() <= 0) {
+            throw new Exception("Book out of stock!");
+        }
+        book.setQuantity(book.getQuantity() - 1);
+        this.transaction = transaction;
+        System.out.println("Borrow book successfully!");
     }
 
-    public void generateReports() {
-        System.out.println("===== REPORT =====");
+    public void returnBook() throws Exception {
+        if (transaction == null) {
+            throw new Exception("No borrowing transaction found!");
+        }
+        if (transaction.isReturned()) {
+            throw new Exception("Book already returned!");
+        }
+        transaction.setReturned(true);
+        book.setQuantity(book.getQuantity() + 1);
+        System.out.println("Return book successfully!");
+    }
+
+    public void displayLibrary() {
+        System.out.println("===== LIBRARY INFORMATION =====");
+        if (book != null) {
+            book.displayBook();
+        } else {
+            System.out.println("No book available!");
+        }
+        System.out.println("------------------------------");
         if (transaction != null) {
             transaction.displayTransaction();
         } else {
-            System.out.println("No transaction.");
+            System.out.println("No transaction available!");
         }
     }
 }
