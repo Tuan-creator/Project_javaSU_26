@@ -8,7 +8,6 @@ package borrowing;
  *
  * @author TRINH HUNG TUAN
  */
-import java.time.LocalDate;
 public class Borrowing {
     private String transactionId;
     private String memberId;
