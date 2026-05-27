@@ -10,7 +10,7 @@ package borrowing;
  */
 import java.time.LocalDate;
 public class Borrowing {
-     private String transactionId;
+    private String transactionId;
     private String memberId;
     private String bookId;
     private LocalDate borrowDate;
