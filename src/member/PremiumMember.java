@@ -2,7 +2,12 @@ package member;
 
 public class PremiumMember extends Member {
     private int limit;
-
+ 
+    
+    public PremiumMember()
+    {
+        
+    }
     public PremiumMember(String memberId, String name, String phone, String email) {
         super(memberId, name, phone, email);
         this.limit = 5; 

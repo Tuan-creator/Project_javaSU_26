@@ -2,7 +2,12 @@ package member;
 
 public class RegularMember extends Member {
     private int limit;
-
+    
+    public RegularMember()
+    {
+        
+    }
+    
     public RegularMember(String memberId, String name, String phone, String email) {
         super(memberId, name, phone, email);
         this.limit = 3; 

@@ -6,6 +6,11 @@ public class Manage_Libarary_System {
     private int quantity;
     private String borrowerName;
     private boolean returned;
+    
+    public Manage_Libarary_System()
+    {
+        
+    }
 
     public void addBook(String bookId, String title, int quantity) throws Exception {
         if (bookId == null || bookId.trim().isEmpty()) {

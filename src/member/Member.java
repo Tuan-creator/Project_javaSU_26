@@ -6,6 +6,12 @@ public abstract class Member {
     private String phone;
     private String email;
 
+    
+    public Member()
+    {
+        
+    }
+    
     public Member(String memberId, String name, String phone, String email) {
         if (memberId == null || memberId.trim().isEmpty()) {
             throw new IllegalArgumentException("Member ID cannot be null or empty!");
