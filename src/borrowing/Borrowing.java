@@ -6,7 +6,7 @@ public class Borrowing {
     private String bookId;
     private boolean returned;
 
-    public BorrowingTransaction(String transactionId, String memberId, String bookId) {
+    public Borrowing(String transactionId, String memberId, String bookId) {
         if (transactionId == null || transactionId.trim().isEmpty()) { 
             throw new IllegalArgumentException("Transaction ID cannot be null or empty!");
         }
