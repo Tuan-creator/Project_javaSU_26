@@ -130,6 +130,8 @@ public class Borrowing {
 
    
 
+    
+    // kiem tra da tra sach hay chua
  
  public boolean isReturned() {
         return returned;
@@ -139,6 +141,10 @@ public class Borrowing {
     private void setReturned(boolean returned) {
         this.returned = returned;
     }
+    
+    
+    
+    
 
     public void displayTransaction() {
         System.out.println("Transaction ID: " + transactionId);
@@ -146,6 +152,11 @@ public class Borrowing {
         System.out.println("Book ID: " + bookId);
         System.out.println("Returned: " + returned);
     }
+    
+    
+    
+    
+    
     
     @Override
 public String toString() {

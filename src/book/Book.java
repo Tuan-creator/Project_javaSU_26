@@ -1,6 +1,6 @@
 
 package book;
-
+import util.ValidationBook;
 
 public class Book {
     private String bookId;
@@ -35,15 +35,14 @@ public class Book {
     public String getBookId(){
         return bookId;
     }
+    
     public void setBookId(String bookId){
-        if (bookId == null || bookId.trim().isEmpty()){
-            throw new IllegalArgumentException("Book ID cannot be null or empty");
-    }
+        bookId = ValidationBook.formatBookId(bookId);
         
-       if(!bookId.matches("B[0-9]+$"))
-       {
-           throw new IllegalArgumentException("Book ID must be in format Bxxxx...");
-       }
+        if (!ValidationBook.isValidBookId(bookId))
+        {
+            throw new IllegalArgumentException("Book ID must be in format Bxxx. Example: B001");
+        }
         this.bookId = bookId;   
     }
     
@@ -54,9 +53,13 @@ public class Book {
         return title;
     }
     public void setTitle(String title){
-        if (title == null || title.trim().isEmpty()){
-            throw new IllegalArgumentException("Title cannot be null or empty");
-    }
+        
+        
+        if (!ValidationBook.isValidTitle(title))
+        {
+            throw new IllegalArgumentException("Title is invalidate");
+        }
+        
         this.title = title;
     }
     
@@ -66,13 +69,13 @@ public class Book {
         return author;
     }
     public void setAuthor(String author){
-        if (author == null || author.trim().isEmpty()){
-            throw new IllegalArgumentException("Author cannot be null or empty");
-    }
-       if (!author.matches("^[a-zA-Z .]+$"))
-       {
-           throw new IllegalArgumentException("Name of Author is incorrect");
-       }
+        author = ValidationBook.formatName(author);
+         
+        if (!ValidationBook.isValidAuthor(author))
+        {
+            throw new IllegalArgumentException("Name of author is incorrect");
+        }
+        
         this.author = author;
     }
     
@@ -82,13 +85,13 @@ public class Book {
         return genre;
     }
     public void setGenre(String genre){
-        if (genre == null || genre.trim().isEmpty()){
-            throw new IllegalArgumentException("Genre cannot be null or empty");
-    }
-        if (!genre.matches("^[a-zA-Z ]$"))
+        
+        genre= ValidationBook.formatName(genre);
+        if (!ValidationBook.isValidGenre(genre))
         {
-             throw new IllegalArgumentException("Genre is incorrect");
+            throw new IllegalArgumentException("Genre is incorrect");
         }
+        
         this.genre = genre;
     }
     
@@ -98,9 +101,10 @@ public class Book {
         return pubYear;
     }
     public void setPubYear(int pubYear){
-        if (pubYear > 2026 || pubYear <= 0){
-            throw new IllegalArgumentException("Invalid publication year");
-    }
+       if (!ValidationBook.isValidPubYear(pubYear))
+       {
+           throw new IllegalArgumentException("Year is incorrect");
+       }
         this.pubYear = pubYear;
     }
     
@@ -110,7 +114,7 @@ public class Book {
         return quantity;
     }
     public void setQuantity(int quantity){
-            if(quantity < 0){
+            if(!ValidationBook.isValidQuantity(quantity)){
         throw new IllegalArgumentException("Quantity cannot be negative");
     }
     this.quantity = quantity;   

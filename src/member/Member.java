@@ -19,6 +19,14 @@ public abstract class Member {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Member name cannot be null or empty!");
         }
+        
+        setMemberId(memberId);
+        setName(name);
+        setPhone(phone);
+        
+        
+        
+        
         this.memberId = memberId;
         this.name = name;
         this.phone = phone;
