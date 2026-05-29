@@ -13,11 +13,6 @@ public class Book {
     
     
     // constructor
-    public Book()
-    {
-        
-    }
-
     public Book(String bookId, String title, String author, String genre, int pubYear, int quantity){
         
         setBookId(bookId);
