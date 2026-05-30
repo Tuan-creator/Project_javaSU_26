@@ -2,11 +2,30 @@
 package util;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 
 public class ValidationBorrow {
     
-       
+    //Dinh dang ngay
+    private static final DateTimeFormatter DateFormat=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    
+    public static boolean isValidDateFormat(String dateInput)
+    {
+        if (dateInput==null)
+        {
+            return false;
+        }
+         try {
+        LocalDate.parse(dateInput.trim(), DateFormat);
+        return true;
+    } catch (DateTimeParseException e) {
+        return false;
+    }
+    }
+
+    
     
         public static boolean isValidTransactionId(String transactionId) {
         return transactionId != null && transactionId.trim().matches("^P[0-9]{3}$");
@@ -60,5 +79,6 @@ public class ValidationBorrow {
         {
            return borrowDate != null && dueDate != null && dueDate.isAfter(borrowDate);
         }
+        
        
 }
