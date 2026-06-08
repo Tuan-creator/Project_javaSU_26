@@ -8,8 +8,7 @@ import java.util.Scanner;
 
 public class InputHelper {
     private static final Scanner n= new Scanner(System.in);
-    private static final DateTimeFormatter DATE_FORMAT =
-        DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
    
     
@@ -156,7 +155,6 @@ public class InputHelper {
     
     
     
-    
     //// Borrow book
     public static String tranId()
     {
@@ -206,8 +204,7 @@ public class InputHelper {
             continue;
         }
 
-        LocalDate borrowDate =
-                LocalDate.parse(input, DATE_FORMAT);
+        LocalDate borrowDate =LocalDate.parse(input, dateformat);
 
         if (ValidationBorrow.isValidBorrowDate(borrowDate)) {
             return borrowDate;
@@ -218,6 +215,98 @@ public class InputHelper {
     }
     }
     
+    public static LocalDate dueDate(LocalDate borrowDate)
+    {
+        while(true)
+        {
+            System.out.println("Nhap vao ngay het han (dd/MM/yyyy): ");
+            String input =n.nextLine().trim();
+            
+            if (!ValidationBorrow.isValidDateFormat(input))
+            {
+                System.out.println("sai dinh dang ngay");
+                continue;
+            }
+            
+            LocalDate dueDate =LocalDate.parse(input,dateformat);
+            if (ValidationBorrow.isValidDueDate(borrowDate, dueDate))
+            {
+                return dueDate;
+            }
+                    
+        }
+        
+                
+    }
+    
+    public static LocalDate returnDate(LocalDate borrowDate)
+    {
+       while(true)
+       {
+              System.out.print("Nhap ngay tra sach (dd/MM/yyyy): ");
+        String input = n.nextLine().trim();
+
+        if (!ValidationBorrow.isValidDateFormat(input)) {
+            System.out.println("Sai dinh dang ngay!");
+            continue;
+        }
+
+        LocalDate returnDate = LocalDate.parse(input, dateformat);
+
+        if (ValidationBorrow.isValidReturnDate(borrowDate, returnDate)) {
+            return returnDate;
+        }
+
+        System.out.println("Ngay tra phai sau ngay muon!");
+       }
+    }
+    
+    
+    
+    //// Member
+    
+   public static String Name()
+   {
+       while(true)
+       {
+       System.out.println("Nhap vao ten cua sinh vien di");
+       String name=n.nextLine();
+       
+      name=ValidationMember.format(name);
+      if (ValidationMember.isValidName(name))
+      {
+          return name;
+      }
+      
+       System.out.println("Ten khong hop le, nhap lai:");
+   }
+   }
+   
+   
+   public static String phone()
+   {
+       while(true)
+       {
+           System.out.println("Nhap vao so dien thoai cua sinh vien di: ");
+           String phone=n.nextLine();
+           
+          if (ValidationMember.isValidPhone(phone))
+          {
+              return phone;
+          }
+           System.out.println("Phone khong hop le, nhap lai");
+       }
+   }
+   
+   
+}
+       
+       
+       
+   
+    
+    
+    
     
     
     
@@ -416,4 +505,4 @@ public class InputHelper {
     
     
 
-}
+
