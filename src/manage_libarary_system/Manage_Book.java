@@ -14,7 +14,7 @@ public class Manage_Book {
     public static void main(String[] args) {
         int choice;
         do {
-            showMenu(); // Gọi hàm hiển thị menu chính
+            showMenu(); 
             try {
                 choice = Integer.parseInt(sc.nextLine());
             } catch (NumberFormatException e) {
@@ -46,7 +46,6 @@ public class Manage_Book {
         } while (choice != 6);
     }
 
-    // --- HÀM HIỂN THỊ MENU CHÍNH ---
     public static void showMenu() {
         System.out.println("\n===== BOOK MANAGEMENT =====");
         System.out.println("1. Add New Book");
@@ -58,7 +57,6 @@ public class Manage_Book {
         System.out.print("Choose: ");
     }
 
-    // --- HÀM HIỂN THỊ MENU TÌM KIẾM ---
     public static void showSearchMenu() {
         System.out.println("\n===== SEARCH BOOK =====");
         System.out.println("1. Search by Book ID");
