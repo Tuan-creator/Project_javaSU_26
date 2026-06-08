@@ -71,7 +71,7 @@ public class ValidationBorrow {
        // kiem tra ngay tra sach co hop le khong
        public static boolean isValidReturnDate(LocalDate borrowDate, LocalDate returnDate)
        {
-           return borrowDate !=null && returnDate!=null && !returnDate.isBefore(returnDate);
+           return borrowDate !=null && returnDate!=null && !returnDate.isBefore(borrowDate);
        }
        
        
