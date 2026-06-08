@@ -14,28 +14,7 @@ public class Manage_Book {
     interface StringValidator { boolean validate(String s); }
     interface IntValidator { boolean validate(int n); }
 
-    public static void main(String[] args) {
-        int choice;
-        do {
-            showMenu(); 
-            try {
-                choice = Integer.parseInt(sc.nextLine());
-            } catch (NumberFormatException e) {
-                choice = -1;
-            }
-
-            switch (choice) {
-                case 1: addBook(); break;
-                case 2: updateBook(); break;
-                case 3: deleteBook(); break;
-                case 4: viewAllBooks(); break;
-                case 5: searchBook(); break;
-                case 6: System.out.println("Back to Main Menu..."); break;
-                default: System.out.println("Invalid choice! Please enter a number from 1 to 6.");
-            }
-        } while (choice != 6);
-    }
-
+    
     public static void showMenu() {
         System.out.println("\n===== BOOK MANAGEMENT =====");
         System.out.println("1. Add New Book\n2. Update Book Information\n3. Delete Book\n4. View All Books\n5. Search Book\n6. Back to Main Menu");
