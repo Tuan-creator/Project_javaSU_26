@@ -1,4 +1,4 @@
-package manage_libarary;
+package manage_libarary_system;
 
 import book.Book; 
 import java.util.ArrayList;
@@ -8,88 +8,123 @@ import util.ValidationBook;
 public class Manage_Book {
 
     static Scanner sc = new Scanner(System.in);
+    // Danh sách lưu trữ tất cả các cuốn sách trong thư viện
     static ArrayList<Book> bookList = new ArrayList<>();
 
-    // Định nghĩa Interface để truyền hàm kiểm tra (Validation) vào làm tham số
-    interface StringValidator { boolean validate(String s); }
-    interface IntValidator { boolean validate(int n); }
-
     
+    
+
     public static void showMenu() {
         System.out.println("\n===== BOOK MANAGEMENT =====");
-        System.out.println("1. Add New Book\n2. Update Book Information\n3. Delete Book\n4. View All Books\n5. Search Book\n6. Back to Main Menu");
+        System.out.println("1. Add New Book");
+        System.out.println("2. Update Book Information");
+        System.out.println("3. Delete Book");
+        System.out.println("4. View All Books");
+        System.out.println("5. Search Book");
+        System.out.println("6. Back to Main Menu");
         System.out.print("Choose: ");
     }
 
     public static void showSearchMenu() {
         System.out.println("\n===== SEARCH BOOK =====");
-        System.out.println("1. Search by Book ID\n2. Search by Title\n3. Search by Author\n4. Return to Book Menu");
+        System.out.println("1. Search by Book ID");
+        System.out.println("2. Search by Title");
+        System.out.println("3. Search by Author");
+        System.out.println("4. Return to Book Menu");
         System.out.print("Choose search criteria: ");
     }
 
-    // --- HÀM NHẬP CHUỖI ĐA NĂNG (Tối đa 5 lần) ---
-    private static String inputString(String prompt, String errorMsg, StringValidator validator, boolean toUpper) {
-        int attempts = 0;
-        while (attempts < 5) {
-            System.out.print(prompt);
-            String input = sc.nextLine().trim();
-            if (toUpper) input = input.toUpperCase();
-
-            if (validator.validate(input)) return input;
-
-            attempts++;
-            System.out.println(errorMsg + " (Attempts: " + attempts + "/5)");
+    // --- HÀM NHẬP CHUỖI ĐA NĂNG (DÙNG CHỮ ĐỂ PHÂN BIỆT LOẠI KIỂM TRA) ---
+    private static String inputString(String prompt, String errorMsg, String checkType, boolean toUpper) {
+    int attempts = 0;
+    while (attempts < 5) {
+        System.out.print(prompt);
+        String input = sc.nextLine().trim();
+        if (toUpper) {
+            input = input.toUpperCase();
         }
-        throw new IllegalArgumentException("Too many failed attempts!");
-    }
+        switch (checkType.toLowerCase()) {
+            case "id":
+                if (ValidationBook.isValidBookId(input) && findBookById(input) == null) {
+                    return input; 
+                }
+                break; 
 
-    // --- HÀM NHẬP SỐ NGUYÊN ĐA NĂNG (Tối đa 5 lần) --
-    private static int inputInt(String prompt, String errorMsg, IntValidator validator) {
-        int attempts = 0;
-        while (attempts < 5) {
-            System.out.print(prompt);
-            try {
-                int value = Integer.parseInt(sc.nextLine().trim());
-                if (validator.validate(value)) return value;
-            } catch (NumberFormatException e) {
-                // Bắt lỗi nếu người dùng nhập chữ thay vì số
+            case "title":
+                if (ValidationBook.isValidTitle(input)) {
+                    return input;
+                }
+                break;
+
+            case "author":
+                if (ValidationBook.isValidAuthor(input)) {
+                    return input;
+                }
+                break;
+
+            case "genre":
+                if (ValidationBook.isValidGenre(input)) {
+                    return input;
+                }
+                break;
+        }
+
+        attempts++;
+        System.out.println(errorMsg + " (Attempts: " + attempts + "/5)");
+    }
+    throw new IllegalArgumentException("Too many failed attempts!");
+}
+    // HÀM NHẬP SỐ NGUYÊN ĐA NĂNG
+    private static int inputInt(String prompt, String errorMsg, String checkType) {
+    int attempts = 0;
+    while (attempts < 5) {
+        System.out.print(prompt);
+        try {
+            int value = Integer.parseInt(sc.nextLine());
+            switch (checkType.toLowerCase()) {
+                case "year":
+                    if (ValidationBook.isValidPubYear(value)) {
+                        return value; 
+                    }
+                    break; 
+
+                case "quantity":
+                    if (ValidationBook.isValidQuantity(value)) {
+                        return value; 
+                    }
+                    break;
             }
-            attempts++;
-            System.out.println(errorMsg + " (Attempts: " + attempts + "/5)");
-        }
-        throw new IllegalArgumentException("Too many failed attempts!");
-    }
+            System.out.println(errorMsg + " (Attempts: " + (attempts + 1) + "/5)");
 
-    // 1. Thêm sách mới (Đã rút gọn bằng các hàm input)
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Must be a valid integer! (Attempts: " + (attempts + 1) + "/5)");
+        }
+        
+        attempts++;
+    }
+    throw new IllegalArgumentException("Too many failed attempts!");
+}
+
+    // 1. Thêm sách mới 
     public static void addBook() {
         System.out.println("\n--- Add New Book ---");
         try {
-            String bookId = inputString("Enter Book ID (Format Bxxx): ", "Error: Invalid ID format or already exists!", 
-                id -> ValidationBook.isValidBookId(id) && findBookById(id) == null, true);
+            String bookId = inputString("Enter Book ID (Format Bxxx, e.g., B001): ", "Error: Invalid ID format or already exists!", "id", true);
+            String title = inputString("Enter Title: ", "Error: Invalid Title!", "title", false);
+            String author = ValidationBook.formatName(inputString("Enter Author: ", "Error: Invalid Author name!", "author", false));
+            String genre = ValidationBook.formatName(inputString("Enter Genre: ", "Error: Invalid Genre!", "genre", false));
+            int pubYear = inputInt("Enter Publication Year: ", "Error: Publication Year must be between 1 and 2026!", "year");
+            int quantity = inputInt("Enter Quantity: ", "Error: Quantity cannot be negative!", "quantity");
 
-            String title = inputString("Enter Title: ", "Error: Invalid Title!", 
-                t -> ValidationBook.isValidTitle(t), false);
-
-            String author = ValidationBook.formatName(inputString("Enter Author: ", "Error: Invalid Author name!", 
-                a -> ValidationBook.isValidAuthor(a), false));
-
-            String genre = ValidationBook.formatName(inputString("Enter Genre: ", "Error: Invalid Genre!", 
-                g -> ValidationBook.isValidGenre(g), false));
-
-            int pubYear = inputInt("Enter Publication Year: ", "Error: Must be between 1 and 2026!", 
-                y -> ValidationBook.isValidPubYear(y));
-
-            int quantity = inputInt("Enter Quantity: ", "Error: Quantity cannot be negative!", 
-                q -> ValidationBook.isValidQuantity(q));
-
-            bookList.add(new Book(bookId, title, author, genre, pubYear, quantity));
+            Book newBook = new Book(bookId, title, author, genre, pubYear, quantity);
+            bookList.add(newBook);
             System.out.println("Add Book Successfully!");
         } catch (IllegalArgumentException e) {
             System.out.println("\nValidation Error: " + e.getMessage() + " Action canceled.");
         }
     }
 
-    // 2. Cập nhật thông tin sách (Đã rút gọn bằng các hàm input)
+    // 2. Cập nhật thông tin sách 
     public static void updateBook() {
         System.out.println("\n--- Update Book Information ---");
         System.out.print("Enter Book ID to update: ");
@@ -99,7 +134,7 @@ public class Manage_Book {
             System.out.println("Error: Invalid Book ID format!");
             return;
         }
-
+        
         Book book = findBookById(bookId);
         if (book == null) {
             System.out.println("Book ID not found!");
@@ -107,12 +142,13 @@ public class Manage_Book {
         }
 
         System.out.println("Current Info: " + book);
+        
         try {
-            book.setTitle(inputString("New Title: ", "Error: Invalid Title!", t -> ValidationBook.isValidTitle(t), false));
-            book.setAuthor(ValidationBook.formatName(inputString("New Author: ", "Error: Invalid Author!", a -> ValidationBook.isValidAuthor(a), false)));
-            book.setGenre(ValidationBook.formatName(inputString("New Genre: ", "Error: Invalid Genre!", g -> ValidationBook.isValidGenre(g), false)));
-            book.setPubYear(inputInt("New Publication Year: ", "Error: Must be between 1 and 2026!", y -> ValidationBook.isValidPubYear(y)));
-            book.setQuantity(inputInt("New Quantity: ", "Error: Quantity cannot be negative!", q -> ValidationBook.isValidQuantity(q)));
+            book.setTitle(inputString("New Title: ", "Error: Invalid Title!", "title", false));
+            book.setAuthor(ValidationBook.formatName(inputString("New Author: ", "Error: Invalid Author name!", "author", false)));
+            book.setGenre(ValidationBook.formatName(inputString("New Genre: ", "Error: Invalid Genre!", "genre", false)));
+            book.setPubYear(inputInt("New Publication Year: ", "Error: Year must be between 1 and 2026!", "year"));
+            book.setQuantity(inputInt("New Quantity: ", "Error: Quantity cannot be negative!", "quantity"));
 
             System.out.println("Update Book Successfully!");
         } catch (IllegalArgumentException e) {
@@ -124,11 +160,14 @@ public class Manage_Book {
     public static void deleteBook() {
         System.out.println("\n--- Delete Book ---");
         System.out.print("Enter Book ID to delete: ");
-        Book book = findBookById(sc.nextLine().trim());
+        String bookId = sc.nextLine().trim();
+
+        Book book = findBookById(bookId);
         if (book == null) {
             System.out.println("Book ID not found!");
             return;
         }
+
         bookList.remove(book);
         System.out.println("Delete Book Successfully!");
     }
@@ -140,8 +179,11 @@ public class Manage_Book {
             System.out.println("No books available in the library.");
             return;
         }
+
         printTableHeader();
-        for (Book b : bookList) System.out.println(b); 
+        for (Book b : bookList) {
+            System.out.println(b); 
+        }
         System.out.println("--------------------------------------------------------------------------------");
     }
 
@@ -151,25 +193,28 @@ public class Manage_Book {
             System.out.println("\nLibrary has no books to search!");
             return;
         }
+
         int subChoice;
         do {
-            showSearchMenu();
+            showSearchMenu(); 
             try {
                 subChoice = Integer.parseInt(sc.nextLine());
             } catch (NumberFormatException e) {
                 subChoice = -1;
             }
-            switch (subChoice) {
-                case 1: searchByKey("Enter Book ID to search: ", 1); break;
-                case 2: searchByKey("Enter Title to search: ", 2); break;
-                case 3: searchByKey("Enter Author to search: ", 3); break;
-                case 4: System.out.println("Returning to Book Management Menu..."); break;
-                default: System.out.println("Invalid choice! Please choose from 1 to 4.");
+
+            if (subChoice >= 1 && subChoice <= 3) {
+                String prompt = (subChoice == 1) ? "Enter Book ID to search: " : (subChoice == 2) ? "Enter Title to search: " : "Enter Author to search: ";
+                searchByKey(prompt, subChoice);
+            } else if (subChoice == 4) {
+                System.out.println("Returning to Book Management Menu...");
+            } else {
+                System.out.println("Invalid choice! Please choose from 1 to 4.");
             }
         } while (subChoice != 4);
     }
 
-    // Gộp chung 3 hàm tìm kiếm cũ thành 1 hàm cực ngắn
+    // --- HÀM TÌM KIẾM ĐA NĂNG GỘP ---
     private static void searchByKey(String prompt, int type) {
         System.out.print(prompt);
         String keyword = sc.nextLine().trim().toLowerCase();
@@ -188,7 +233,9 @@ public class Manage_Book {
     // --- CÁC HÀM HỖ TRỢ ---
     public static Book findBookById(String bookId) {
         for (Book b : bookList) {
-            if (b.getBookId() != null && b.getBookId().equalsIgnoreCase(bookId.trim())) return b;
+            if (b.getBookId() != null && b.getBookId().equalsIgnoreCase(bookId.trim())) {
+                return b;
+            }
         }
         return null;
     }
@@ -201,6 +248,8 @@ public class Manage_Book {
 
     public static void printTableFooter(boolean found, String keyword) {
         System.out.println("--------------------------------------------------------------------------------");
-        if (!found) System.out.println("No books match the keyword: '" + keyword + "'");
+        if (!found) {
+            System.out.println("No books match the keyword: '" + keyword + "'");
+        }
     }
 }
