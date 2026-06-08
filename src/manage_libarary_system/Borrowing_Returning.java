@@ -3,12 +3,22 @@ package manage_libarary_system;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import util.ValidationBorrow;
 
 public class Borrowing_Returning {
-
     static Scanner sc = new Scanner(System.in);
     static ArrayList<String> borrowIdList = new ArrayList<>();
     static ArrayList<String> memberIdList = new ArrayList<>();
+    static ArrayList<String> memberNameList = new ArrayList<>();
+    static ArrayList<String> memberEmailList = new ArrayList<>();
+    static ArrayList<String> memberPhoneList = new ArrayList<>();
+    static ArrayList<String> borrowDateList = new ArrayList<>();
+    static ArrayList<String> dueDateList = new ArrayList<>();
+    static ArrayList<String> statusList = new ArrayList<>();
+    static ArrayList<String> bookIdList = new ArrayList<>();
+    static ArrayList<String> returnDateList = new ArrayList<>();
 
     public static void main(String[] args) {
         int choice;
@@ -42,18 +52,19 @@ public class Borrowing_Returning {
                 default:
                     System.out.println("Invalid choice!");
             }
+
         } while (choice != 5);
     }
 
-    // Borrow Book (add - ktra giao dịch mượn sách mới)
-    // Borrow ID: P001 - Member ID: M001
+    // Borrow Book
     public static void borrowBook() {
 
         System.out.print("Enter Borrow ID: ");
-        String borrowId = sc.nextLine();
+        String borrowId =
+                ValidationBorrow.formatTransactionId(sc.nextLine());
 
-        if (isEmpty(borrowId)) {
-            System.out.println("Borrow ID cannot be empty!");
+        if (!ValidationBorrow.isValidTransactionId(borrowId)) {
+            System.out.println("Borrow ID must be P001 format!");
             return;
         }
 
@@ -63,20 +74,83 @@ public class Borrowing_Returning {
         }
 
         System.out.print("Enter Member ID: ");
-        String memberId = sc.nextLine();
+        String memberId =
+                ValidationBorrow.formatMemberId(sc.nextLine());
+        System.out.print("Enter Book ID: ");
+        String bookId =
+                ValidationBorrow.formatBookId(sc.nextLine());
 
-        if (isEmpty(memberId)) {
-            System.out.println("Member ID cannot be empty!");
+        if (!ValidationBorrow.isValidBookId(bookId)) {
+            System.out.println("Invalid Book ID!");
+            return;
+        }
+
+        if (!ValidationBorrow.isValidMemberId(memberId)) {
+            System.out.println("Member ID must be M001 format!");
+            return;
+        }
+
+        System.out.print("Enter Member Name: ");
+        String memberName = sc.nextLine();
+
+        System.out.print("Enter Email: ");
+        String email = sc.nextLine();
+
+        System.out.print("Enter Phone: ");
+        String phone = sc.nextLine();
+
+        System.out.print("Enter Borrow Date (dd/MM/yyyy): ");
+        String borrowDate = sc.nextLine();
+
+        if (!ValidationBorrow.isValidDateFormat(borrowDate)) {
+            System.out.println("Invalid Borrow Date!");
+            return;
+        }
+
+        LocalDate bd = LocalDate.parse(
+                borrowDate,
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        if (!ValidationBorrow.isValidBorrowDate(bd)) {
+            System.out.println("Borrow Date is invalid!");
+            return;
+        }
+
+        System.out.print("Enter Due Date (dd/MM/yyyy): ");
+        String dueDate = sc.nextLine();
+
+        if (!ValidationBorrow.isValidDateFormat(dueDate)) {
+            System.out.println("Invalid Due Date!");
+            return;
+        }
+
+        LocalDate dd = LocalDate.parse(
+                dueDate,
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        if (!ValidationBorrow.isValidDueDate(bd, dd)) {
+            System.out.println("Due Date must be after Borrow Date!");
             return;
         }
 
         borrowIdList.add(borrowId);
         memberIdList.add(memberId);
 
+        memberNameList.add(memberName);
+        memberEmailList.add(email);
+        memberPhoneList.add(phone);
+
+        borrowDateList.add(borrowDate);
+        dueDateList.add(dueDate);
+
+        statusList.add("No Return");
+
         System.out.println("Borrow Book Successfully!");
+        bookIdList.add(bookId);
+        returnDateList.add("");
     }
 
-    // Return Book (trả sách - xóa các giao dịch mượn sách)
+    // Return Book
     public static void returnBook() {
 
         if (isBorrowListEmpty()) {
@@ -85,7 +159,8 @@ public class Borrowing_Returning {
         }
 
         System.out.print("Enter Borrow ID: ");
-        String borrowId = sc.nextLine();
+        String borrowId =
+                ValidationBorrow.formatTransactionId(sc.nextLine());
 
         if (!isExistBorrowId(borrowId)) {
             System.out.println("Borrow ID not found!");
@@ -95,16 +170,32 @@ public class Borrowing_Returning {
         for (int i = 0; i < borrowIdList.size(); i++) {
 
             if (borrowIdList.get(i).equals(borrowId)) {
-                borrowIdList.remove(i);
-                memberIdList.remove(i);
 
+                System.out.print("Enter Return Date (dd/MM/yyyy): ");
+                String returnDate = sc.nextLine();
+
+                if (!ValidationBorrow.isValidDateFormat(returnDate)) {
+                    System.out.println("Invalid Return Date!");
+                    return;
+                }
+
+                LocalDate borrowDate = LocalDate.parse(borrowDateList.get(i),DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                LocalDate rd = LocalDate.parse(returnDate,DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+                if (!ValidationBorrow.isValidReturnDate(borrowDate, rd)) {
+
+                    System.out.println("Return Date must be after Borrow Date!");
+                    return;
+                }
+                returnDateList.set(i, returnDate);
+                statusList.set(i, "Returned");
                 System.out.println("Return Book Successfully!");
                 return;
             }
         }
     }
 
-    // View All Borrowed Books (hiện ds sách đang dc mượn)
+    // View All Borrowed Books
     public static void viewBorrowList() {
 
         if (isBorrowListEmpty()) {
@@ -112,16 +203,24 @@ public class Borrowing_Returning {
             return;
         }
 
-        System.out.println("--------------------------------");
-        System.out.println("Borrow ID\tMember ID");
-        System.out.println("--------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------------");
+        System.out.println("BorrowID\tMemberID\tBookID\tBorrow\t\tDue\t\tReturn\t\tStatus");
+        System.out.println("------------------------------------------------------------------------------------------------");
 
         for (int i = 0; i < borrowIdList.size(); i++) {
-            System.out.println(borrowIdList.get(i)+ "\t\t"+ memberIdList.get(i));
+
+            System.out.println(
+                borrowIdList.get(i) + "\t\t"
+                + memberIdList.get(i) + "\t\t"
+                + bookIdList.get(i) + "\t"
+                + borrowDateList.get(i) + "\t"
+                + dueDateList.get(i) + "\t"
+                + returnDateList.get(i) + "\t"
+                + statusList.get(i));
         }
     }
 
-    // View Borrowing History By Member (xem ls mượn sách từ member)
+    // View Borrowing History By Member
     public static void viewHistory() {
 
         if (isBorrowListEmpty()) {
@@ -130,22 +229,25 @@ public class Borrowing_Returning {
         }
 
         System.out.print("Enter Member ID: ");
-        String memberId = sc.nextLine();
-
-        if (isEmpty(memberId)) {
-            System.out.println("Member ID cannot be empty!");
-            return;
-        }
+        String memberId = ValidationBorrow.formatMemberId(sc.nextLine());
 
         boolean found = false;
 
-        System.out.println("--------------------------------");
-        System.out.println("Borrow ID\tMember ID");
-        System.out.println("--------------------------------");
-
         for (int i = 0; i < memberIdList.size(); i++) {
             if (memberIdList.get(i).equals(memberId)) {
-                System.out.println(borrowIdList.get(i)+ "\t\t"+ memberIdList.get(i));
+                System.out.println("--------------------------------");
+                System.out.println("Borrow ID : " + borrowIdList.get(i));
+                System.out.println("Member ID : " + memberIdList.get(i));
+                System.out.println("Name      : " + memberNameList.get(i));
+                System.out.println("Email     : " + memberEmailList.get(i));
+                System.out.println("Phone     : " + memberPhoneList.get(i));
+                System.out.println("Borrow    : " + borrowDateList.get(i));
+                System.out.println("Due Date  : " + dueDateList.get(i));
+                System.out.println("Status    : " + statusList.get(i));
+                System.out.println("Book ID    : " + bookIdList.get(i));
+                System.out.println("Return Date: " + returnDateList.get(i));
+                System.out.println("--------------------------------");
+
                 found = true;
             }
         }
@@ -154,11 +256,12 @@ public class Borrowing_Returning {
         }
     }
 
-    // ===== VALIDATION =====
-    public static boolean isEmpty(String str) { //ktra trống
-        return str.trim().isEmpty();
+    // Validation
+    public static boolean isEmpty(String str) {
+        return str == null || str.trim().isEmpty();
     }
-    public static boolean isExistBorrowId(String borrowId) { //ktra đã tồn tại
+
+    public static boolean isExistBorrowId(String borrowId) {
         for (int i = 0; i < borrowIdList.size(); i++) {
             if (borrowIdList.get(i).equals(borrowId)) {
                 return true;
@@ -166,7 +269,7 @@ public class Borrowing_Returning {
         }
         return false;
     }
-    public static boolean isBorrowListEmpty() { //ktra ds mượn trống
+    public static boolean isBorrowListEmpty() {
         return borrowIdList.isEmpty();
     }
 }
