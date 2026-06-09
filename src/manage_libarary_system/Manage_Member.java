@@ -195,4 +195,7 @@ public class Manage_Member {
         }
         return null;
     }
+    public static void main(String[] args) {
+        showMenu();
+    }
 }
