@@ -12,7 +12,7 @@ public class Menu {
         do {
             System.out.println("====== LIBRARY MANAGEMENT SYSTEM MAIN MENU ======");
             System.out.println("1. Manage Books");
-            System.out.println("2. Manage Members (Chức năng của mày)");
+            System.out.println("2. Manage Members");
             System.out.println("3. Manage Borrows & Returns");
             System.out.println("4. Exit System");
             System.out.println("-------------------------------------------------");
