@@ -68,7 +68,7 @@ public class Manage_Book {
         System.out.print("Choose search criteria: ");
     }
 
-    //add book
+  // addbook
     public static void addBook() {
         System.out.println("\n--- Add New Book ---");
         try {
@@ -95,7 +95,7 @@ public class Manage_Book {
         }
     }
 
-   //update book
+    // update
     public static void updateBook() {
         System.out.println("\n--- Update Book Information ---");
         System.out.print("Enter Book ID to update: ");
@@ -126,26 +126,30 @@ public class Manage_Book {
         }
 
         try {
-            if (mode == 1) {
-                int additionalQty = InputHelper.Quantity();
-                book.setQuantity(book.getQuantity() + additionalQty);
-                System.out.println("Increased Quantity Successfully! New Info: " + book);
-            } else if (mode == 2) {
-                book.setTitle(InputHelper.Title());
-                book.setAuthor(InputHelper.Author());
-                book.setGenre(InputHelper.Genre());
-                book.setPubYear(InputHelper.Year());
-                book.setQuantity(InputHelper.Quantity());
-                System.out.println("Update Book Profile Successfully!");
-            } else {
-                System.out.println("Invalid choice. Update canceled.");
+            switch (mode) {
+                case 1:
+                    int additionalQty = InputHelper.Quantity();
+                    book.setQuantity(book.getQuantity() + additionalQty);
+                    System.out.println("Increased Quantity Successfully! New Info: " + book);
+                    break;
+                case 2:
+                    book.setTitle(InputHelper.Title());
+                    book.setAuthor(InputHelper.Author());
+                    book.setGenre(InputHelper.Genre());
+                    book.setPubYear(InputHelper.Year());
+                    book.setQuantity(InputHelper.Quantity());
+                    System.out.println("Update Book Profile Successfully!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Update canceled.");
+                    break;
             }
         } catch (IllegalArgumentException e) {
             System.out.println("\nValidation Error: " + e.getMessage() + " Update canceled.");
         }
     }
 
-    // 3. Chức năng Xóa: Tự xử lý vòng lặp kiểm tra max vô hạn trực tiếp, dùng hàm InputHelper.Quantity() gốc
+    // delete book 
     public static void deleteBook() {
         System.out.println("\n--- Delete / Decrease Book Quantity ---");
         System.out.print("Enter Book ID to delete: ");
