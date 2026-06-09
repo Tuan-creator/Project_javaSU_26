@@ -41,12 +41,12 @@ public class Borrowing {
         this.returnDate = null;
         this.returned = false;
     }
-<<<<<<< HEAD
+
     
-=======
 
 
->>>>>>> fc2b64e (up borrow)
+
+
     public String getEmail() {
         return email;
     }
