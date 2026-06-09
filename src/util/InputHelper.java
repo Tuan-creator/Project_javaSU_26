@@ -148,7 +148,9 @@ public class InputHelper {
                     return quantity;
                 }else {
                     System.out.println("Quantity can be negative");
-            } catch(Exception e)
+            } 
+            }
+            catch(Exception e)
             {
                 System.out.println("Nhap sai, nhap lai!");
             }

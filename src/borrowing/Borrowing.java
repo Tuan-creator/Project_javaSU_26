@@ -32,7 +32,7 @@ public class Borrowing {
         setBookId(bookId);
         setBorrowDate(borrowDate);
         setDueDate(dueDate);
-        setMemberName(memberName);
+        setmemberName(memberName);
         setEmail(email);
         setPhone(phone);
         
@@ -41,7 +41,12 @@ public class Borrowing {
         this.returnDate = null;
         this.returned = false;
     }
+<<<<<<< HEAD
     
+=======
+
+
+>>>>>>> fc2b64e (up borrow)
     public String getEmail() {
         return email;
     }
@@ -235,9 +240,7 @@ public String toString() {
               );
 }
 
-    private void setMemberName(String memberName) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
     
     
 }

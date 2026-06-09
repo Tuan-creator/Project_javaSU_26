@@ -22,7 +22,7 @@ public class Borrowing_Returning {
             System.out.println("4. View Borrowing History By Member");
             System.out.println("5. Back to Main Menu");
 
-            choice = InputHelper.inputInt("Choose: ");
+             choice = InputHelper.inputInt("Choose: ");
 
             switch (choice) {
                 case 1:
@@ -62,7 +62,12 @@ public class Borrowing_Returning {
         String bookId = InputHelper.BookId();
         LocalDate borrowDate = InputHelper.borrowDate();
         LocalDate dueDate = InputHelper.dueDate(borrowDate);
+<<<<<<< HEAD
         Borrowing borrow= new Borrowing(transactionId, memberId, bookId, borrowDate, dueDate, phone, email, memberName);
+=======
+      
+         Borrowing borrow = new Borrowing(transactionId, memberId,bookId, borrowDate, dueDate,phone, email,memberName);
+>>>>>>> fc2b64e (up borrow)
         listBorrow.add(borrow);
         System.out.println("Borrow Book Successfully!");
     }
