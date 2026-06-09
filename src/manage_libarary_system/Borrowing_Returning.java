@@ -62,7 +62,7 @@ public class Borrowing_Returning {
         String bookId = InputHelper.BookId();
         LocalDate borrowDate = InputHelper.borrowDate();
         LocalDate dueDate = InputHelper.dueDate(borrowDate);
-        Borrowing borrow = new Borrowing(transactionId, memberId, memberName, email, phone, bookId, borrowDate, dueDate);
+        Borrowing borrow= new Borrowing(transactionId, memberId, bookId, borrowDate, dueDate, phone, email, memberName);
         listBorrow.add(borrow);
         System.out.println("Borrow Book Successfully!");
     }
