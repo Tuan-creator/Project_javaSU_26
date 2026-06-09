@@ -3,11 +3,14 @@ package manage_libarary_system;
 import borrowing.Borrowing;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import member.Member;
 import util.InputHelper;
 
 public class Borrowing_Returning {
 
     static ArrayList<Borrowing> listBorrow = new ArrayList<>();
+    static ArrayList<Member> listMember = new ArrayList<>();
+    
 
     public static void main(String[] args) {
         int choice;
@@ -54,10 +57,13 @@ public class Borrowing_Returning {
         }
 
         String memberId = InputHelper.memId();
+        String name = InputHelper.Name();
+        String phone = InputHelper.phone();
+        String email = InputHelper.email();
         String bookId = InputHelper.BookId();
         LocalDate borrowDate = InputHelper.borrowDate();
         LocalDate dueDate = InputHelper.dueDate(borrowDate);
-        Borrowing borrow = new Borrowing(transactionId, memberId, bookId, borrowDate, dueDate);
+        Borrowing borrow = new Borrowing(transactionId, memberId,  bookId, borrowDate, dueDate);
         listBorrow.add(borrow);
         System.out.println("Borrow Book Successfully!");
     }
@@ -103,7 +109,7 @@ public class Borrowing_Returning {
         }
 
         System.out.println("-----------------------------------------------------------------------------------------");
-        System.out.printf("%-10s %-10s %-10s %-12s %-12s %-12s %-12s\n", "TransID", "MemberID", "BookID", "Borrow", "Due", "Return", "Status");
+        System.out.printf("%-10s %-10s %-10s %-12s %-12s %-12s %-12s\n", "TransID", "MemberID", "BookID", "Name", "Email", "Phone", "Borrow", "Due", "Return", "Status");
         System.out.println("-----------------------------------------------------------------------------------------");
 
         for (Borrowing b : listBorrow) {
