@@ -121,8 +121,9 @@ public class InputHelper {
                           return year;
                       }else {
                           System.out.println("Nam xuat ban khong hop le (phai lon hon 0 va nho hon hoac bang 2026). Nhap lai!");
+                      }
             
-           } catch (Exception e)
+           } catch (NumberFormatException e)
            {
                System.out.println("Nhap sai, nhap lai!");
            }
@@ -130,7 +131,7 @@ public class InputHelper {
    }
    }
        
-   }
+   
    
     public static int Quantity()
     {
