@@ -129,6 +129,8 @@ public class InputHelper {
        
    }
    }
+       
+   }
    
     public static int Quantity()
     {
@@ -300,6 +302,21 @@ public class InputHelper {
        }
    }
    
+   
+   public static String email()
+   {
+       while(true)
+       {
+           System.out.println("Nhap vao email cua sinh vien di: ");
+           String email=n.nextLine();
+           
+          if (ValidationMember.isValidEmail(email))
+          {
+              return email;
+          }
+           System.out.println("Email khong hop le,  nhap lai!");
+       }
+   }
    
 }
        

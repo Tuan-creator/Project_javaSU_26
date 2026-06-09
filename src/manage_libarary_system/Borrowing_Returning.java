@@ -1,10 +1,13 @@
 
 package manage_libarary_system;
 
+import borrowing.Borrowing;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import member.Member;
+import util.InputHelper;
 import util.ValidationBorrow;
 
 public class Borrowing_Returning {
@@ -19,6 +22,17 @@ public class Borrowing_Returning {
     static ArrayList<String> statusList = new ArrayList<>();
     static ArrayList<String> bookIdList = new ArrayList<>();
     static ArrayList<String> returnDateList = new ArrayList<>();
+    
+    
+    
+    
+    
+    
+    
+    
+    static ArrayList<Borrowing> listBorrow= new ArrayList<>();
+    static ArrayList<Member> listMem= new ArrayList<>();
+    
 
     public static void main(String[] args) {
         int choice;
@@ -58,141 +72,213 @@ public class Borrowing_Returning {
 
     // Borrow Book
     public static void borrowBook() {
-
-        System.out.print("Enter Borrow ID: ");
-        String borrowId =
-                ValidationBorrow.formatTransactionId(sc.nextLine());
-
-        if (!ValidationBorrow.isValidTransactionId(borrowId)) {
-            System.out.println("Borrow ID must be P001 format!");
-            return;
+        
+          String transactionId = InputHelper.tranId();
+          
+        
+       if (isExistBorrowId(transactionId)) {
+        System.out.println("Borrow ID already exists!");
+        return;
         }
+       
+          String memId = InputHelper.memId();
+         String bookId = InputHelper.BookId();
+         
+         LocalDate borrowDate=InputHelper.borrowDate();
+         LocalDate dueDate=InputHelper.dueDate(borrowDate);
+         
+          Borrowing b = new Borrowing(transactionId, memId, bookId, borrowDate, dueDate);
+          
+          listBorrow.add(b);
+          System.out.println("Borrow Book Successfully!");
+          
+          
+          
+          
+          
+          
 
-        if (isExistBorrowId(borrowId)) {
-            System.out.println("Borrow ID already exists!");
-            return;
-        }
-
-        System.out.print("Enter Member ID: ");
-        String memberId =
-                ValidationBorrow.formatMemberId(sc.nextLine());
-        System.out.print("Enter Book ID: ");
-        String bookId =
-                ValidationBorrow.formatBookId(sc.nextLine());
-
-        if (!ValidationBorrow.isValidBookId(bookId)) {
-            System.out.println("Invalid Book ID!");
-            return;
-        }
-
-        if (!ValidationBorrow.isValidMemberId(memberId)) {
-            System.out.println("Member ID must be M001 format!");
-            return;
-        }
-
-        System.out.print("Enter Member Name: ");
-        String memberName = sc.nextLine();
-
-        System.out.print("Enter Email: ");
-        String email = sc.nextLine();
-
-        System.out.print("Enter Phone: ");
-        String phone = sc.nextLine();
-
-        System.out.print("Enter Borrow Date (dd/MM/yyyy): ");
-        String borrowDate = sc.nextLine();
-
-        if (!ValidationBorrow.isValidDateFormat(borrowDate)) {
-            System.out.println("Invalid Borrow Date!");
-            return;
-        }
-
-        LocalDate bd = LocalDate.parse(
-                borrowDate,
-                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-        if (!ValidationBorrow.isValidBorrowDate(bd)) {
-            System.out.println("Borrow Date is invalid!");
-            return;
-        }
-
-        System.out.print("Enter Due Date (dd/MM/yyyy): ");
-        String dueDate = sc.nextLine();
-
-        if (!ValidationBorrow.isValidDateFormat(dueDate)) {
-            System.out.println("Invalid Due Date!");
-            return;
-        }
-
-        LocalDate dd = LocalDate.parse(
-                dueDate,
-                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-        if (!ValidationBorrow.isValidDueDate(bd, dd)) {
-            System.out.println("Due Date must be after Borrow Date!");
-            return;
-        }
-
-        borrowIdList.add(borrowId);
-        memberIdList.add(memberId);
-
-        memberNameList.add(memberName);
-        memberEmailList.add(email);
-        memberPhoneList.add(phone);
-
-        borrowDateList.add(borrowDate);
-        dueDateList.add(dueDate);
-
-        statusList.add("No Return");
-
-        System.out.println("Borrow Book Successfully!");
-        bookIdList.add(bookId);
-        returnDateList.add("");
+//        System.out.print("Enter Borrow ID: ");
+//        String borrowId =
+//                ValidationBorrow.formatTransactionId(sc.nextLine());
+//
+//        if (!ValidationBorrow.isValidTransactionId(borrowId)) {
+//            System.out.println("Borrow ID must be P001 format!");
+//            return;
+//        }
+//
+//        if (isExistBorrowId(borrowId)) {
+//            System.out.println("Borrow ID already exists!");
+//            return;
+//        }
+//
+//        System.out.print("Enter Member ID: ");
+//        String memberId =
+//                ValidationBorrow.formatMemberId(sc.nextLine());
+//        System.out.print("Enter Book ID: ");
+//        String bookId =
+//                ValidationBorrow.formatBookId(sc.nextLine());
+//
+//        if (!ValidationBorrow.isValidBookId(bookId)) {
+//            System.out.println("Invalid Book ID!");
+//            return;
+//        }
+//
+//        if (!ValidationBorrow.isValidMemberId(memberId)) {
+//            System.out.println("Member ID must be M001 format!");
+//            return;
+//        }
+//
+//        System.out.print("Enter Member Name: ");
+//        String memberName = sc.nextLine();
+//
+//        System.out.print("Enter Email: ");
+//        String email = sc.nextLine();
+//
+//        System.out.print("Enter Phone: ");
+//        String phone = sc.nextLine();
+//
+//        System.out.print("Enter Borrow Date (dd/MM/yyyy): ");
+//        String borrowDate = sc.nextLine();
+//
+//        if (!ValidationBorrow.isValidDateFormat(borrowDate)) {
+//            System.out.println("Invalid Borrow Date!");
+//            return;
+//        }
+//
+//        LocalDate bd = LocalDate.parse(
+//                borrowDate,
+//                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+//
+//        if (!ValidationBorrow.isValidBorrowDate(bd)) {
+//            System.out.println("Borrow Date is invalid!");
+//            return;
+//        }
+//
+//        System.out.print("Enter Due Date (dd/MM/yyyy): ");
+//        String dueDate = sc.nextLine();
+//
+//        if (!ValidationBorrow.isValidDateFormat(dueDate)) {
+//            System.out.println("Invalid Due Date!");
+//            return;
+//        }
+//
+//        LocalDate dd = LocalDate.parse(
+//                dueDate,
+//                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+//
+//        if (!ValidationBorrow.isValidDueDate(bd, dd)) {
+//            System.out.println("Due Date must be after Borrow Date!");
+//            return;
+//        }
+//
+//        borrowIdList.add(borrowId);
+//        memberIdList.add(memberId);
+//
+//        memberNameList.add(memberName);
+//        memberEmailList.add(email);
+//        memberPhoneList.add(phone);
+//
+//        borrowDateList.add(borrowDate);
+//        dueDateList.add(dueDate);
+//
+//        statusList.add("No Return");
+//
+//        System.out.println("Borrow Book Successfully!");
+//        bookIdList.add(bookId);
+//        returnDateList.add("");
     }
 
     // Return Book
     public static void returnBook() {
-
-        if (isBorrowListEmpty()) {
+        
+        if (listBorrow.isEmpty())
+        {
             System.out.println("Borrow list is empty!");
             return;
         }
-
-        System.out.print("Enter Borrow ID: ");
-        String borrowId =
-                ValidationBorrow.formatTransactionId(sc.nextLine());
-
-        if (!isExistBorrowId(borrowId)) {
-            System.out.println("Borrow ID not found!");
-            return;
-        }
-
-        for (int i = 0; i < borrowIdList.size(); i++) {
-
-            if (borrowIdList.get(i).equals(borrowId)) {
-
-                System.out.print("Enter Return Date (dd/MM/yyyy): ");
-                String returnDate = sc.nextLine();
-
-                if (!ValidationBorrow.isValidDateFormat(returnDate)) {
-                    System.out.println("Invalid Return Date!");
-                    return;
-                }
-
-                LocalDate borrowDate = LocalDate.parse(borrowDateList.get(i),DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                LocalDate rd = LocalDate.parse(returnDate,DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-                if (!ValidationBorrow.isValidReturnDate(borrowDate, rd)) {
-
-                    System.out.println("Return Date must be after Borrow Date!");
-                    return;
-                }
-                returnDateList.set(i, returnDate);
-                statusList.set(i, "Returned");
-                System.out.println("Return Book Successfully!");
-                return;
+        
+        String transactionId= InputHelper.tranId();
+        Borrowing found=null;
+        
+        for (Borrowing b: listBorrow)
+        {
+            if (b.getTransactionId().equalsIgnoreCase(transactionId))
+            {
+                found=b;
+                break;
             }
         }
+        
+        if (found==null)
+        {
+            System.out.println("Borrow Id not found!");
+            return;
+        }
+        
+       if (found.isReturned()) {
+        System.out.println("This book has already been returned!");
+        return;
+     }
+       
+       LocalDate returnDate=InputHelper.returnDate(found.getBorrowDate());
+       found.setReturnDate(returnDate);
+       
+        System.out.println("Return book successfully!");
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+//        if (isBorrowListEmpty()) {
+//            System.out.println("Borrow list is empty!");
+//            return;
+//        }
+//
+//        System.out.print("Enter Borrow ID: ");
+//        String borrowId =
+//                ValidationBorrow.formatTransactionId(sc.nextLine());
+//
+//        if (!isExistBorrowId(borrowId)) {
+//            System.out.println("Borrow ID not found!");
+//            return;
+//        }
+//
+//        for (int i = 0; i < borrowIdList.size(); i++) {
+//
+//            if (borrowIdList.get(i).equals(borrowId)) {
+//
+//                System.out.print("Enter Return Date (dd/MM/yyyy): ");
+//                String returnDate = sc.nextLine();
+//
+//                if (!ValidationBorrow.isValidDateFormat(returnDate)) {
+//                    System.out.println("Invalid Return Date!");
+//                    return;
+//                }
+//
+//                LocalDate borrowDate = LocalDate.parse(borrowDateList.get(i),DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+//                LocalDate rd = LocalDate.parse(returnDate,DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+//
+//                if (!ValidationBorrow.isValidReturnDate(borrowDate, rd)) {
+//
+//                    System.out.println("Return Date must be after Borrow Date!");
+//                    return;
+//                }
+//                returnDateList.set(i, returnDate);
+//                statusList.set(i, "Returned");
+//                System.out.println("Return Book Successfully!");
+//                return;
+//            }
+//        }
     }
 
     // View All Borrowed Books
