@@ -211,7 +211,7 @@ public class InputHelper {
         }
 
         System.out.println(
-                "Ngay muon khong duoc lon hon ngay hien tai!");
+                "Ngay muon khong duoc lon hon ngay hien tai, nhap lai di!");
     }
     }
     
@@ -233,6 +233,7 @@ public class InputHelper {
             {
                 return dueDate;
             }
+            System.out.println("Nhap lai di:");
                     
         }
         
@@ -257,7 +258,7 @@ public class InputHelper {
             return returnDate;
         }
 
-        System.out.println("Ngay tra phai sau ngay muon!");
+        System.out.println("Ngay tra phai sau ngay muon, nhap lai di!");
        }
     }
     
