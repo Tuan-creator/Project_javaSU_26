@@ -68,7 +68,7 @@ public class Manage_Book {
         System.out.print("Choose search criteria: ");
     }
 
-    // 1. Giữ nguyên hàm gốc: Trùng ID báo lỗi và hủy bỏ thao tác
+    //add book
     public static void addBook() {
         System.out.println("\n--- Add New Book ---");
         try {
@@ -95,7 +95,7 @@ public class Manage_Book {
         }
     }
 
-    // 2. Chức năng Update: Cho phép lựa chọn cộng dồn số lượng sách cũ hoặc sửa thông tin
+   //update book
     public static void updateBook() {
         System.out.println("\n--- Update Book Information ---");
         System.out.print("Enter Book ID to update: ");
