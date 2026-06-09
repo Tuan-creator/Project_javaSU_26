@@ -141,18 +141,20 @@ public class Manage_Member {
             return;
         }
 
-        System.out.println("ID \t| Name \t\t\t| Phone \t| Email \t| Limit");
-        System.out.println("---------------------------------------------------------------------------------");
+        System.out.printf("%-8s | %-25s | %-15s | %-30s | %-6s\n", "ID", "Name", "Phone", "Email", "Limit");
+        System.out.println("-----------------------------------------------------------------------------------------");
+        
         for (Member m : memberList) {
             int limitValue = 0;
-            // Dùng toán tử instanceof kiểm tra xem m có phải là RegularMember không để lấy thuộc tính limit
             if (m instanceof RegularMember) {
                 limitValue = ((RegularMember) m).getLimit();
             }
-            System.out.println(m.getMemberId() + " \t| " + m.getName() + " \t| " + m.getPhone() + " \t| " + m.getEmail() + " \t| " + limitValue);
+            
+            System.out.printf("%-8s | %-25s | %-15s | %-30s | %-6d\n", 
+                    m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), limitValue);
         }
     }
-
+    
     //5.search member
     public static void searchMember() {
         System.out.println("\n===== SEARCH MEMBER =====");
@@ -195,6 +197,7 @@ public class Manage_Member {
         }
         return null;
     }
+
     public static void main(String[] args) {
         showMenu();
     }
