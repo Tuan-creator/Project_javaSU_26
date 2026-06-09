@@ -41,11 +41,7 @@ public class Borrowing {
         this.returnDate = null;
         this.returned = false;
     }
-
-    public Borrowing(String transactionId, String memberId, String memberName, String email, String phone, String bookId, LocalDate borrowDate, LocalDate dueDate) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+    
     public String getEmail() {
         return email;
     }
