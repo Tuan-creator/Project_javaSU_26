@@ -3,7 +3,8 @@ package manage_libarary_system;
 import java.util.ArrayList;
 import java.util.Scanner;
 import member.Member;
-import member.RegularMember; 
+import member.RegularMember;
+import util.InputHelper;
 
 public class Manage_Member {
 
@@ -17,37 +18,32 @@ public class Manage_Member {
             System.out.println("1. Add Member");
             System.out.println("2. Update Member");
             System.out.println("3. Remove Member");
-            System.out.println("4. View All Member");
+            System.out.println("4. View All Members");
             System.out.println("5. Search Member");
             System.out.println("6. Back to Main Menu");
-            System.out.print("Choose: ");
 
-            try {
-                choice = Integer.parseInt(sc.nextLine());
-            } catch (Exception e) {
-                choice = -1; 
-            }
+            choice = InputHelper.inputInt("Choose an option: ");
 
             switch (choice) {
-                case 1: 
-                    addMember(); 
+                case 1:
+                    addMember();
                     break;
-                case 2: 
-                    updateMember(); 
+                case 2:
+                    updateMember();
                     break;
-                case 3: 
-                    removeMember(); 
-                    break; 
-                case 4: 
-                    viewAllMember(); 
-                    break; 
-                case 5: 
-                    searchMember(); 
+                case 3:
+                    removeMember();
                     break;
-                case 6: 
-                    System.out.println("Back to Main Menu..."); 
+                case 4:
+                    viewAllMember();
                     break;
-                default: 
+                case 5:
+                    searchMember();
+                    break;
+                case 6:
+                    System.out.println("Back to Main Menu...");
+                    break;
+                default:
                     System.out.println("Invalid choice! Please choose from 1 to 6.");
             }
         } while (choice != 6);
@@ -56,24 +52,18 @@ public class Manage_Member {
     //1.add member
     public static void addMember() {
         System.out.println("\n--- Add Member ---");
-        
-        System.out.print("Enter Member ID:");
-        String id = sc.nextLine().trim();
-        
-        // Check trùng ID trước khi cho nhập tiếp
+
+        String id = InputHelper.memId();
+
         if (findMemberById(id) != null) {
             System.out.println("Error: Member ID already exists!");
             return;
         }
 
-        System.out.print("Enter Name: ");
-        String name = sc.nextLine().trim();
-
-        System.out.print("Enter Phone Number: ");
-        String phone = sc.nextLine().trim();
-
-        System.out.print("Enter Email: ");
-        String email = sc.nextLine().trim();
+        // Gọi các hàm xử lý nhập + bắt lỗi dữ liệu tập trung từ InputHelper
+        String name = InputHelper.Name();
+        String phone = InputHelper.phone();
+        String email = InputHelper.email();
 
         try {
             // Khởi tạo bằng lớp con RegularMember theo đúng tính kế thừa
@@ -140,18 +130,18 @@ public class Manage_Member {
             return;
         }
 
-        memberList.remove(m); 
+        memberList.remove(m);
         System.out.println("Remove Member Successfully!");
     }
 
-    //4.View all member
+    //4.view all member
     public static void viewAllMember() {
         System.out.println("\n--- View All Member ---");
         if (memberList.isEmpty()) {
             System.out.println("No members registered in the library.");
             return;
         }
-        
+
         System.out.println("ID \t| Name \t\t\t| Phone \t| Email \t| Limit");
         System.out.println("---------------------------------------------------------------------------------");
         for (Member m : memberList) {
@@ -169,27 +159,24 @@ public class Manage_Member {
         System.out.println("\n===== SEARCH MEMBER =====");
         System.out.println("1. Search by Member ID");
         System.out.println("2. Search by Name");
-        System.out.print("Choose search : ");
-        
-        int type = 0;
-        try {
-            type = Integer.parseInt(sc.nextLine());
-        } catch (Exception e) {
-            return;
-        }
+
+        // Sử dụng hàm an toàn để chọn tiêu chí tìm kiếm
+        int type = InputHelper.inputInt("Choose search criteria: ");
 
         System.out.print("Enter keyword: ");
         String key = sc.nextLine().trim().toLowerCase();
 
         System.out.println("ID \t| Name \t\t\t| Phone \t| Email \t| Limit");
         System.out.println("----------------------------------------------------------------------");
-        
+
         for (Member m : memberList) {
             boolean isMatched = false;
-            if (type == 1 && m.getMemberId().toLowerCase().contains(key)) 
+            if (type == 1 && m.getMemberId().toLowerCase().contains(key)) {
                 isMatched = true;
-            if (type == 2 && m.getName().toLowerCase().contains(key)) 
+            }
+            if (type == 2 && m.getName().toLowerCase().contains(key)) {
                 isMatched = true;
+            }
 
             if (isMatched) {
                 int limitValue = 0;
@@ -201,15 +188,13 @@ public class Manage_Member {
         }
     }
 
-   
-    // HÀM PHỤ TRỢ: Tìm kiếm thành viên theo ID
-    
+    //Ham phu tro
     public static Member findMemberById(String id) {
         for (Member m : memberList) {
             if (m.getMemberId().equalsIgnoreCase(id.trim())) {
-                return m; 
+                return m;
             }
         }
-        return null; 
+        return null;
     }
 }
