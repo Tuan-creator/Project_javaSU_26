@@ -112,15 +112,15 @@ public class Borrowing_Returning {
             return;
         }
 
-        System.out.println("-----------------------------------------------------------------------------------------");
-        System.out.printf("%-10s %-10s %-10s %-12s %-15s %-12s %-12s %-12s %-12s %-10s\n", "TransID", "MemberID", "BookID", "Name", "Email", "Phone", "Borrow", "Due", "Return", "Status");
-        System.out.println("-----------------------------------------------------------------------------------------");
+        System.out.println("=============================================================================================================================================================");
+        System.out.printf("%-12s %-12s %-12s %-18s %-25s %-15s %-15s %-15s %-15s %-10s\n", "TransID", "MemberID", "BookID", "Name", "Email", "Phone", "Borrow", "Due", "Return", "Status");
+        System.out.println("=============================================================================================================================================================");
 
         for (Borrowing b : listBorrow) {
             String returnDate = b.getReturnDate() == null? "N/A" : b.getReturnDate().toString();
             String status = b.isReturned() ? "Returned" : "No Return";
 
-            System.out.printf("%-10s %-10s %-10s %-12s %-15s %-12s %-12s %-12s %-12s %-10s\n",
+            System.out.printf("%-12s %-12s %-12s %-18s %-25s %-15s %-15s %-15s %-15s %-10s\n",
             b.getTransactionId(),
             b.getMemberId(),
             b.getBookId(),
@@ -149,7 +149,7 @@ public class Borrowing_Returning {
         for (Borrowing b : listBorrow) {
             if (b.getMemberId().equalsIgnoreCase(memberId)) {
 
-                System.out.println("--------------------------------");
+                System.out.println("--------------------------------------------");
                 System.out.println("Transaction ID : " + b.getTransactionId());
                 System.out.println("Book ID        : " + b.getBookId());
                 System.out.println("Name           : " + b.getmemberName());
@@ -159,7 +159,7 @@ public class Borrowing_Returning {
                 System.out.println("Due Date       : " + b.getDueDate());
                 System.out.println("Return Date    : " + b.getReturnDate());
                 System.out.println("Status         : " + (b.isReturned() ? "Returned" : "No Return"));
-                System.out.println("--------------------------------");
+                System.out.println("--------------------------------------------");
 
                 found = true;
             }
