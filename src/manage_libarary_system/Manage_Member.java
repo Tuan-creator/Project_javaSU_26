@@ -59,8 +59,7 @@ public class Manage_Member {
             System.out.println("Error: Member ID already exists!");
             return;
         }
-
-        // Gọi các hàm xử lý nhập + bắt lỗi dữ liệu tập trung từ InputHelper
+        
         String name = InputHelper.Name();
         String phone = InputHelper.phone();
         String email = InputHelper.email();
@@ -160,7 +159,6 @@ public class Manage_Member {
         System.out.println("1. Search by Member ID");
         System.out.println("2. Search by Name");
 
-        // Sử dụng hàm an toàn để chọn tiêu chí tìm kiếm
         int type = InputHelper.inputInt("Choose search criteria: ");
 
         System.out.print("Enter keyword: ");
