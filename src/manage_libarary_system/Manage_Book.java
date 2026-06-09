@@ -3,8 +3,8 @@ package manage_libarary_system;
 import book.Book; 
 import java.util.ArrayList;
 import java.util.Scanner;
-import util.InputHelper;
-import util.ValidationBook;
+import Util.InputHelper;
+import Util.ValidationBook;
 
 public class Manage_Book {
 
@@ -50,8 +50,8 @@ public class Manage_Book {
     public static void showMenu() {
         System.out.println("\n===== BOOK MANAGEMENT =====");
         System.out.println("1. Add New Book");
-        System.out.println("2. Update Book Information");
-        System.out.println("3. Delete Book");
+        System.out.println("2. Update Book Information / Add Stock Quantity");
+        System.out.println("3. Delete / Decrease Book Quantity");
         System.out.println("4. View All Books");
         System.out.println("5. Search Book");
         System.out.println("6. Exit");
@@ -67,7 +67,7 @@ public class Manage_Book {
         System.out.print("Choose search criteria: ");
     }
 
-    // 1. Thêm sách mới 
+    // 1. Giữ nguyên hàm gốc: Trùng ID báo lỗi và hủy bỏ thao tác
     public static void addBook() {
         System.out.println("\n--- Add New Book ---");
         try {
@@ -94,7 +94,7 @@ public class Manage_Book {
         }
     }
 
-    // 2. Cập nhật thông tin sách 
+    // 2. Chức năng Update: Cho phép lựa chọn cộng dồn số lượng sách cũ hoặc sửa thông tin
     public static void updateBook() {
         System.out.println("\n--- Update Book Information ---");
         System.out.print("Enter Book ID to update: ");
@@ -112,23 +112,41 @@ public class Manage_Book {
         }
 
         System.out.println("Current Info: " + book);
+        System.out.println("Choose update mode:");
+        System.out.println("1. Add more quantity to this book (Cong don so luong)");
+        System.out.println("2. Update all profile fields (Sua toan bo thong tin)");
+        System.out.print("Your choice: ");
         
+        int mode;
         try {
-            book.setTitle(InputHelper.Title());
-            book.setAuthor(InputHelper.Author());
-            book.setGenre(InputHelper.Genre());
-            book.setPubYear(InputHelper.Year());
-            book.setQuantity(InputHelper.Quantity());
+            mode = Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            mode = -1;
+        }
 
-            System.out.println("Update Book Successfully!");
+        try {
+            if (mode == 1) {
+                int additionalQty = InputHelper.Quantity();
+                book.setQuantity(book.getQuantity() + additionalQty);
+                System.out.println("Increased Quantity Successfully! New Info: " + book);
+            } else if (mode == 2) {
+                book.setTitle(InputHelper.Title());
+                book.setAuthor(InputHelper.Author());
+                book.setGenre(InputHelper.Genre());
+                book.setPubYear(InputHelper.Year());
+                book.setQuantity(InputHelper.Quantity());
+                System.out.println("Update Book Profile Successfully!");
+            } else {
+                System.out.println("Invalid choice. Update canceled.");
+            }
         } catch (IllegalArgumentException e) {
             System.out.println("\nValidation Error: " + e.getMessage() + " Update canceled.");
         }
     }
 
-    // 3. Xóa sách
+    // 3. Chức năng Xóa: Tự xử lý vòng lặp kiểm tra max vô hạn trực tiếp, dùng hàm InputHelper.Quantity() gốc
     public static void deleteBook() {
-        System.out.println("\n--- Delete Book ---");
+        System.out.println("\n--- Delete / Decrease Book Quantity ---");
         System.out.print("Enter Book ID to delete: ");
         String bookId = sc.nextLine().trim();
 
@@ -138,8 +156,32 @@ public class Manage_Book {
             return;
         }
 
-        bookList.remove(book);
-        System.out.println("Delete Book Successfully!");
+        System.out.println("Current Info: " + book);
+        int currentQty = book.getQuantity();
+        int deleteQty = 0;
+
+        while (true) {
+            try {
+                System.out.println("Enter quantity to delete (Max " + currentQty + "): ");
+                deleteQty = InputHelper.Quantity();
+                
+                if (deleteQty <= currentQty) {
+                    break; 
+                }
+                System.out.println("So luong can xoa khong duoc lon hon so luong hien co trong kho (" + currentQty + ")! Nhap lai.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Loi nhap lieu: " + e.getMessage() + " Vui long thuc hien lai.");
+                return;
+            }
+        }
+
+        if (deleteQty == currentQty) {
+            bookList.remove(book);
+            System.out.println("Book has been completely removed from the library!");
+        } else {
+            book.setQuantity(currentQty - deleteQty);
+            System.out.println("Decreased Quantity Successfully! New Info: " + book);
+        }
     }
 
     // 4. Xem danh sách sách
@@ -154,6 +196,8 @@ public class Manage_Book {
         for (Book b : bookList) {
             System.out.println(b); 
         }
+        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("Total quantity of books in stock: " + getTotalQuantity());
         System.out.println("--------------------------------------------------------------------------------");
     }
 
@@ -210,7 +254,14 @@ public class Manage_Book {
         return null;
     }
 
-    public static void printTableHeader() {
+    public static int getTotalQuantity() {
+        int total = 0;
+        for (Book b : bookList) {
+            total += b.getQuantity();
+        }
+        return total;
+    }
+     public static void printTableHeader() {
         System.out.println("--------------------------------------------------------------------------------");
         System.out.println("ID \t| Title \t\t| Author \t\t| Genre \t| Year \t| Qty");
         System.out.println("--------------------------------------------------------------------------------");
