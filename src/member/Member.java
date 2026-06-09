@@ -85,7 +85,7 @@ public abstract class Member {
     }
 
     public void setEmail(String email) {
-        if (ValidationMember.isValidEmail(email))
+        if (!ValidationMember.isValidEmail(email))
         {
              throw new IllegalArgumentException("Email is incorrect!"); 
         }
