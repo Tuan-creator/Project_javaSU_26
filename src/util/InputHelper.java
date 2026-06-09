@@ -146,7 +146,8 @@ public class InputHelper {
                 if (ValidationBook.isValidQuantity(quantity))
                 {
                     return quantity;
-                }
+                }else {
+                    System.out.println("Quantity can be negative");
             } catch(Exception e)
             {
                 System.out.println("Nhap sai, nhap lai!");
