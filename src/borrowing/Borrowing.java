@@ -1,12 +1,17 @@
 package borrowing;
 
 import java.time.LocalDate;
+import static util.InputHelper.email;
 import util.ValidationBorrow;
+import util.ValidationMember;
 
 public class Borrowing {
     private String transactionId;
     private String memberId;
     private String bookId;
+    private String memberName;
+    private String email;
+    private String phone;
     private boolean returned;
     private LocalDate borrowDate;
     private LocalDate dueDate;
@@ -19,7 +24,7 @@ public class Borrowing {
         
     }
 
-    public Borrowing(String transactionId, String memberId, String bookId, LocalDate borrowDate, LocalDate dueDate) {
+    public Borrowing(String transactionId, String memberId, String bookId, LocalDate borrowDate, LocalDate dueDate,String phone,String email,String memberName) {
         
       
         setTransactionId(transactionId);
@@ -27,12 +32,66 @@ public class Borrowing {
         setBookId(bookId);
         setBorrowDate(borrowDate);
         setDueDate(dueDate);
+        setMemberName(memberName);
+        setEmail(email);
+        setPhone(phone);
+        
         
        
         this.returnDate = null;
         this.returned = false;
     }
 
+    public Borrowing(String transactionId, String memberId, String memberName, String email, String phone, String bookId, LocalDate borrowDate, LocalDate dueDate) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) 
+             
+    {
+       
+        if (!ValidationMember.isValidEmail(email))
+            {
+                throw new IllegalArgumentException("Name is not correct!");
+                
+            }
+        this.email=email;
+            
+      
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        if (!ValidationMember.isValidPhone(phone))
+            {
+                throw new IllegalArgumentException("Phone is not correct!");
+            }
+        this.phone = phone;
+    }
+
+    public String getmemberName()
+            {
+                return memberName;
+            }
+    
+    public void setmemberName(String memberName)
+            {
+                memberName=ValidationMember.format(memberName);
+                if (!ValidationMember.isValidName(memberName))
+                    {
+                        throw new IllegalArgumentException("Name is not correct!");
+                        
+                    }
+                this.memberName=memberName;
+            }
+ 
     
       // kiem tra transactionId
     public String getTransactionId() {
@@ -179,6 +238,10 @@ public String toString() {
             returned ? "Returned" : "Borrowing"
               );
 }
+
+    private void setMemberName(String memberName) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
 }
