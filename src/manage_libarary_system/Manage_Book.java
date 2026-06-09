@@ -3,6 +3,7 @@ package manage_libarary_system;
 import book.Book; 
 import java.util.ArrayList;
 import java.util.Scanner;
+import util.InputHelper;
 import util.ValidationBook;
 
 public class Manage_Book {
@@ -11,8 +12,40 @@ public class Manage_Book {
     // Danh sách lưu trữ tất cả các cuốn sách trong thư viện
     static ArrayList<Book> bookList = new ArrayList<>();
 
-    
-    
+    public static void main(String[] args) {
+        int choice;
+        do {
+            showMenu();
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                choice = -1;
+            }
+
+            switch (choice) {
+                case 1:
+                    addBook();
+                    break;
+                case 2:
+                    updateBook();
+                    break;
+                case 3:
+                    deleteBook();
+                    break;
+                case 4:
+                    viewAllBooks();
+                    break;
+                case 5:
+                    searchBook();
+                    break;
+                case 6:
+                    System.out.println("Exiting Book Management System. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice! Please choose from 1 to 6.");
+            }
+        } while (choice != 6);
+    }
 
     public static void showMenu() {
         System.out.println("\n===== BOOK MANAGEMENT =====");
@@ -21,7 +54,7 @@ public class Manage_Book {
         System.out.println("3. Delete Book");
         System.out.println("4. View All Books");
         System.out.println("5. Search Book");
-        System.out.println("6. Back to Main Menu");
+        System.out.println("6. Exit");
         System.out.print("Choose: ");
     }
 
@@ -34,87 +67,24 @@ public class Manage_Book {
         System.out.print("Choose search criteria: ");
     }
 
-    // --- HÀM NHẬP CHUỖI ĐA NĂNG (DÙNG CHỮ ĐỂ PHÂN BIỆT LOẠI KIỂM TRA) ---
-    private static String inputString(String prompt, String errorMsg, String checkType, boolean toUpper) {
-    int attempts = 0;
-    while (attempts < 5) {
-        System.out.print(prompt);
-        String input = sc.nextLine().trim();
-        if (toUpper) {
-            input = input.toUpperCase();
-        }
-        switch (checkType.toLowerCase()) {
-            case "id":
-                if (ValidationBook.isValidBookId(input) && findBookById(input) == null) {
-                    return input; 
-                }
-                break; 
-
-            case "title":
-                if (ValidationBook.isValidTitle(input)) {
-                    return input;
-                }
-                break;
-
-            case "author":
-                if (ValidationBook.isValidAuthor(input)) {
-                    return input;
-                }
-                break;
-
-            case "genre":
-                if (ValidationBook.isValidGenre(input)) {
-                    return input;
-                }
-                break;
-        }
-
-        attempts++;
-        System.out.println(errorMsg + " (Attempts: " + attempts + "/5)");
-    }
-    throw new IllegalArgumentException("Too many failed attempts!");
-}
-    // HÀM NHẬP SỐ NGUYÊN ĐA NĂNG
-    private static int inputInt(String prompt, String errorMsg, String checkType) {
-    int attempts = 0;
-    while (attempts < 5) {
-        System.out.print(prompt);
-        try {
-            int value = Integer.parseInt(sc.nextLine());
-            switch (checkType.toLowerCase()) {
-                case "year":
-                    if (ValidationBook.isValidPubYear(value)) {
-                        return value; 
-                    }
-                    break; 
-
-                case "quantity":
-                    if (ValidationBook.isValidQuantity(value)) {
-                        return value; 
-                    }
-                    break;
-            }
-            System.out.println(errorMsg + " (Attempts: " + (attempts + 1) + "/5)");
-
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Must be a valid integer! (Attempts: " + (attempts + 1) + "/5)");
-        }
-        
-        attempts++;
-    }
-    throw new IllegalArgumentException("Too many failed attempts!");
-}
-
     // 1. Thêm sách mới 
     public static void addBook() {
         System.out.println("\n--- Add New Book ---");
         try {
-            String bookId = inputString("Enter Book ID (Format Bxxx, e.g., B001): ", "Error: Invalid ID format or already exists!", "id", true);
-            String title = inputString("Enter Title: ", "Error: Invalid Title!", "title", false);
-            String author = ValidationBook.formatName(inputString("Enter Author: ", "Error: Invalid Author name!", "author", false));
-            String genre = ValidationBook.formatName(inputString("Enter Genre: ", "Error: Invalid Genre!", "genre", false));
-            int pubYear = inputInt("Enter Publication Year: ", "Error: Publication Year must be between 1 and 2026!", "year");
-            int quantity = inputInt("Enter Quantity: ", "Error: Quantity cannot be negative!", "quantity");
+            String bookId;
+            while (true) {
+                bookId = InputHelper.BookId();
+                if (findBookById(bookId) == null) {
+                    break;
+                }
+                System.out.println("Error: Book ID already exists! Please try another ID.");
+            }
+            
+            String title = InputHelper.Title();
+            String author = InputHelper.Author();
+            String genre = InputHelper.Genre();
+            int pubYear = InputHelper.Year();
+            int quantity = InputHelper.Quantity();
 
             Book newBook = new Book(bookId, title, author, genre, pubYear, quantity);
             bookList.add(newBook);
@@ -144,11 +114,11 @@ public class Manage_Book {
         System.out.println("Current Info: " + book);
         
         try {
-            book.setTitle(inputString("New Title: ", "Error: Invalid Title!", "title", false));
-            book.setAuthor(ValidationBook.formatName(inputString("New Author: ", "Error: Invalid Author name!", "author", false)));
-            book.setGenre(ValidationBook.formatName(inputString("New Genre: ", "Error: Invalid Genre!", "genre", false)));
-            book.setPubYear(inputInt("New Publication Year: ", "Error: Year must be between 1 and 2026!", "year"));
-            book.setQuantity(inputInt("New Quantity: ", "Error: Quantity cannot be negative!", "quantity"));
+            book.setTitle(InputHelper.Title());
+            book.setAuthor(InputHelper.Author());
+            book.setGenre(InputHelper.Genre());
+            book.setPubYear(InputHelper.Year());
+            book.setQuantity(InputHelper.Quantity());
 
             System.out.println("Update Book Successfully!");
         } catch (IllegalArgumentException e) {

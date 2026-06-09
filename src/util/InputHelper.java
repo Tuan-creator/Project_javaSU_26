@@ -119,7 +119,8 @@ public class InputHelper {
                       if (ValidationBook.isValidPubYear(year))
                       {
                           return year;
-                      }
+                      }else {
+                          System.out.println("Nam xuat ban khong hop le (phai lon hon 0 va nho hon hoac bang 2026). Nhap lai!");
             
            } catch (Exception e)
            {
