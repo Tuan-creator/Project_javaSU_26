@@ -21,9 +21,7 @@ public class Menu {
             
             switch (mainChoice) {
                 case 1:
-                    System.out.println("\n--- Opening Book Management ---");
                     // Đứa làm phần Book sau này sẽ gọi hàm Menu của nó ở đây
-                    // Ví dụ: manage_libarary_system.Manage_Book.showMenu();
                     break;
                     
                 case 2:
@@ -31,7 +29,6 @@ public class Menu {
                     break;
                     
                 case 3:
-                    System.out.println("\n--- Opening Borrow & Return Management ---");
                     // Đứa làm phần Mượn/Trả sách sau này sẽ gọi hàm ở đây
                     break;
                     
