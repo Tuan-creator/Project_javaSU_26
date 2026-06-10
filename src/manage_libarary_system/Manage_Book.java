@@ -11,53 +11,56 @@ public class Manage_Book {
 
     static Scanner sc = new Scanner(System.in);
     // Danh sách lưu trữ tất cả các cuốn sách trong thư viện
-    static ArrayList<Book> bookList = new ArrayList<>();
+     public static ArrayList<Book> bookList = new ArrayList<>();
 
-    public static void main(String[] args) {
-        int choice;
-        do {
-            showMenu();
-            try {
-                choice = Integer.parseInt(sc.nextLine());
-            } catch (NumberFormatException e) {
-                choice = -1;
-            }
-
-            switch (choice) {
-                case 1:
-                    addBook();
-                    break;
-                case 2:
-                    updateBook();
-                    break;
-                case 3:
-                    deleteBook();
-                    break;
-                case 4:
-                    viewAllBooks();
-                    break;
-                case 5:
-                    searchBook();
-                    break;
-                case 6:
-                    System.out.println("Exiting Book Management System. Goodbye!");
-                    break;
-                default:
-                    System.out.println("Invalid choice! Please choose from 1 to 6.");
-            }
-        } while (choice != 6);
-    }
-
-    public static void showMenu() {
+ public static void showMenu() {
+    int choice;
+    do {
         System.out.println("\n===== BOOK MANAGEMENT =====");
         System.out.println("1. Add New Book");
         System.out.println("2. Update Book Information / Add Stock Quantity");
         System.out.println("3. Delete / Decrease Book Quantity");
         System.out.println("4. View All Books");
         System.out.println("5. Search Book");
-        System.out.println("6. Exit");
-        System.out.print("Choose: ");
-    }
+        System.out.println("6. Back to Main Menu");
+
+        choice = InputHelper.inputInt("Choose: ");
+
+        switch (choice) {
+            case 1:
+                addBook();
+                break;
+            case 2:
+                updateBook();
+                break;
+            case 3:
+                deleteBook();
+                break;
+            case 4:
+                viewAllBooks();
+                break;
+            case 5:
+                searchBook();
+                break;
+            case 6:
+                System.out.println("Back to Main Menu...");
+                break;
+            default:
+                System.out.println("Invalid choice! Please choose from 1 to 6.");
+        }
+    } while (choice != 6);
+}
+
+//    public static void showMenu() {
+//        System.out.println("\n===== BOOK MANAGEMENT =====");
+//        System.out.println("1. Add New Book");
+//        System.out.println("2. Update Book Information / Add Stock Quantity");
+//        System.out.println("3. Delete / Decrease Book Quantity");
+//        System.out.println("4. View All Books");
+//        System.out.println("5. Search Book");
+//        System.out.println("6. Exit");
+//        System.out.print("Choose: ");
+//    }
 
     public static void showSearchMenu() {
         System.out.println("\n===== SEARCH BOOK =====");

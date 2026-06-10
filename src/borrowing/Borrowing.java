@@ -32,7 +32,7 @@ public class Borrowing {
         setBookId(bookId);
         setBorrowDate(borrowDate);
         setDueDate(dueDate);
-        setmemberName(memberName);
+        setMemberName(memberName);
         setEmail(email);
         setPhone(phone);
         
@@ -57,7 +57,7 @@ public class Borrowing {
        
         if (!ValidationMember.isValidEmail(email))
             {
-                throw new IllegalArgumentException("Name is not correct!");
+                throw new IllegalArgumentException("Emai is not correct!");
                 
             }
         this.email=email;
@@ -77,12 +77,12 @@ public class Borrowing {
         this.phone = phone;
     }
 
-    public String getmemberName()
+    public String getMemberName()
             {
                 return memberName;
             }
     
-    public void setmemberName(String memberName)
+    public void setMemberName(String memberName)
             {
                 memberName=ValidationMember.format(memberName);
                 if (!ValidationMember.isValidName(memberName))

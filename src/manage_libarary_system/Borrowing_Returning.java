@@ -1,5 +1,6 @@
 package manage_libarary_system;
 
+import book.Book;
 import borrowing.Borrowing;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class Borrowing_Returning {
     static ArrayList<Member> listMember = new ArrayList<>();
     
 
-    public static void main(String[] args) {
+   public static void showMenu() {
         int choice;
         do {
             System.out.println("\n===== BORROWING / RETURNING =====");
@@ -21,6 +22,8 @@ public class Borrowing_Returning {
             System.out.println("3. View All Borrowed Books");
             System.out.println("4. View Borrowing History By Member");
             System.out.println("5. Back to Main Menu");
+            
+           
 
              choice = InputHelper.inputInt("Choose: ");
 
@@ -55,23 +58,57 @@ public class Borrowing_Returning {
             System.out.println("Transaction ID already exists!");
             return;
         }
+        
+        
+        
         String memberId = InputHelper.memId();
-        String memberName = InputHelper.Name();
-        String phone = InputHelper.phone();
-        String email = InputHelper.email();
+        Member member = Manage_Member.findMemberById(memberId);
+
+       if (member == null) {
+        System.out.println("Member ID not found!");
+             return;
+          }
+
+
+         if (member == null) {
+               System.out.println("Member ID not found!");
+               return;
+             } 
+//        String memberName = InputHelper.Name();
+//        String phone = InputHelper.phone();
+//        String email = InputHelper.email();
+
+
+
+
         String bookId = InputHelper.BookId();
+        
+        Book book=  Manage_Book.findBookById(bookId);
+        if (book==null)
+        {
+            System.out.println("Book ID not found!");
+            return;
+           
+        }
+        
+           
+        if (book.getQuantity() <= 0) {
+       System.out.println("Book is out of stock!");
+        return;
+}
+      
         LocalDate borrowDate = InputHelper.borrowDate();
         LocalDate dueDate = InputHelper.dueDate(borrowDate);
 
-        Borrowing borrow= new Borrowing(transactionId, memberId, bookId, borrowDate, dueDate, phone, email, memberName);
-
-      
+        Borrowing borrow= new Borrowing(transactionId, memberId, bookId, borrowDate, dueDate,member.getPhone(), member.getEmail(), member.getName());
 
 
         listBorrow.add(borrow);
+        book.setQuantity(book.getQuantity()-1);
         System.out.println("Borrow Book Successfully!");
     }
 
+    
     // Return Book
     public static void returnBook() {
 
@@ -80,6 +117,7 @@ public class Borrowing_Returning {
             return;
         }
 
+        
         String transactionId = InputHelper.tranId();
         Borrowing found = null;
         for (Borrowing b : listBorrow) {
@@ -101,6 +139,13 @@ public class Borrowing_Returning {
 
         LocalDate returnDate = InputHelper.returnDate(found.getBorrowDate());
         found.setReturnDate(returnDate);
+        Book book = Manage_Book.findBookById(found.getBookId());
+        
+        if (book!=null)
+        {
+            book.setQuantity(book.getQuantity()+1);
+        }
+        
         System.out.println("Return Book Successfully!");
     }
 
@@ -124,7 +169,7 @@ public class Borrowing_Returning {
             b.getTransactionId(),
             b.getMemberId(),
             b.getBookId(),
-            b.getmemberName(),
+            b.getMemberName(),
             b.getEmail(),
             b.getPhone(),
             b.getBorrowDate(),
@@ -152,7 +197,7 @@ public class Borrowing_Returning {
                 System.out.println("--------------------------------------------");
                 System.out.println("Transaction ID : " + b.getTransactionId());
                 System.out.println("Book ID        : " + b.getBookId());
-                System.out.println("Name           : " + b.getmemberName());
+                System.out.println("Name           : " + b.getMemberName());
                 System.out.println("Email          : " + b.getEmail());
                 System.out.println("Phone          : " + b.getPhone());
                 System.out.println("Borrow Date    : " + b.getBorrowDate());

@@ -1,12 +1,21 @@
 package ui;
 
+
+import manage_libarary_system.Borrowing_Returning;
+import manage_libarary_system.Manage_Book;
 import manage_libarary_system.Manage_Member;
-// Nếu sau này cần gọi thêm Manage_Book hay Borrowing_Returning thì import thêm ở đây
 import util.InputHelper; 
 
 public class Menu {
 
     public static void main(String[] args) {
+        Borrowing_Returning Br=new Borrowing_Returning();
+        Manage_Book Mb = new Manage_Book();
+        Manage_Member Mm = new Manage_Member();
+        
+        
+        
+        
         int mainChoice = 0;
         
         do {
@@ -21,16 +30,20 @@ public class Menu {
             
             switch (mainChoice) {
                 case 1:
-                    // Đứa làm phần Book sau này sẽ gọi hàm Menu của nó ở đây
+                    
+                    Manage_Book.showMenu();
                     break;
+                       
+                    
                     
                 case 2:
-                    Manage_Member.showMenu(); 
+                    Manage_Member.showMenu();
                     break;
                     
                 case 3:
-                    // Đứa làm phần Mượn/Trả sách sau này sẽ gọi hàm ở đây
-                    break;
+                   
+                   Borrowing_Returning.showMenu();
+                   break;
                     
                 case 4:
                     System.out.println("\nSaving data and shutting down system... Goodbye!");
