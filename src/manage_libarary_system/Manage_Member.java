@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import member.Member;
 import member.RegularMember;
+import member.PremiumMember; 
 import util.InputHelper;
 
 public class Manage_Member {
@@ -64,9 +65,17 @@ public class Manage_Member {
         String phone = InputHelper.phone();
         String email = InputHelper.email();
 
+        System.out.println("Select Member Type: 1. Regular Member | 2. Premium Member");
+        int type = InputHelper.inputInt("Your choice: ");
+
         try {
-            // Khởi tạo bằng lớp con RegularMember theo đúng tính kế thừa
-            RegularMember newMem = new RegularMember(id, name, phone, email);
+            Member newMem;
+            if (type == 2) {
+                newMem = new PremiumMember(id, name, phone, email); 
+            } else {
+                newMem = new RegularMember(id, name, phone, email);
+            }
+            
             memberList.add(newMem);
             System.out.println("Add Member Successfully!");
         } catch (IllegalArgumentException e) {
@@ -90,21 +99,18 @@ public class Manage_Member {
         System.out.println("(Press ENTER to skip updating a field)");
 
         try {
-            // Sửa Tên
             System.out.print("New Name: ");
             String newName = sc.nextLine().trim();
             if (!newName.isEmpty()) {
                 m.setName(newName);
             }
 
-            // Sửa Số điện thoại
             System.out.print("New Phone Number: ");
             String newPhone = sc.nextLine().trim();
             if (!newPhone.isEmpty()) {
                 m.setPhone(newPhone);
             }
 
-            // Sửa Email
             System.out.print("New Email: ");
             String newEmail = sc.nextLine().trim();
             if (!newEmail.isEmpty()) {
@@ -141,20 +147,29 @@ public class Manage_Member {
             return;
         }
 
-        System.out.printf("%-8s | %-25s | %-15s | %-30s | %-6s\n", "ID", "Name", "Phone", "Email", "Limit");
-        System.out.println("-----------------------------------------------------------------------------------------");
+        System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6s | %-10s\n", 
+                "ID", "Name", "Phone", "Email", "Type", "Limit", "Fine/1 Day");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------");
         
         for (Member m : memberList) {
             int limitValue = 0;
+            String memberType = "Unknown";
+            
             if (m instanceof RegularMember) {
                 limitValue = ((RegularMember) m).getLimit();
+                memberType = "Regular";
+            } else if (m instanceof PremiumMember) { 
+                limitValue = ((PremiumMember) m).getLimit();
+                memberType = "Premium";
             }
             
-            System.out.printf("%-8s | %-25s | %-15s | %-30s | %-6d\n", 
-                    m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), limitValue);
+            double fineValue = m.calculateFine(1);
+            
+            System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d | %-10.1f\n", 
+                    m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), memberType, limitValue, fineValue);
         }
     }
-    
+
     //5.search member
     public static void searchMember() {
         System.out.println("\n===== SEARCH MEMBER =====");
@@ -166,8 +181,9 @@ public class Manage_Member {
         System.out.print("Enter keyword: ");
         String key = sc.nextLine().trim().toLowerCase();
 
-        System.out.println("ID \t| Name \t\t\t| Phone \t| Email \t| Limit");
-        System.out.println("----------------------------------------------------------------------");
+        System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6s | %-10s\n", 
+                "ID", "Name", "Phone", "Email", "Type", "Limit", "Fine/1 Day");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------");
 
         for (Member m : memberList) {
             boolean isMatched = false;
@@ -180,10 +196,19 @@ public class Manage_Member {
 
             if (isMatched) {
                 int limitValue = 0;
+                String memberType = "Unknown";
                 if (m instanceof RegularMember) {
                     limitValue = ((RegularMember) m).getLimit();
+                    memberType = "Regular";
+                } else if (m instanceof PremiumMember) { 
+                    limitValue = ((PremiumMember) m).getLimit();
+                    memberType = "Premium";
                 }
-                System.out.println(m.getMemberId() + " \t| " + m.getName() + " \t| " + m.getPhone() + " \t| " + m.getEmail() + " \t| " + limitValue);
+                
+                double fineValue = m.calculateFine(1);
+                
+                System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d | %-10.1f\n", 
+                        m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), memberType, limitValue, fineValue);
             }
         }
     }
