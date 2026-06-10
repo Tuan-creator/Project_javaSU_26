@@ -74,6 +74,19 @@ public class Borrowing_Returning {
                System.out.println("Member ID not found!");
                return;
              } 
+         
+         int currentBorrowed = countCurrentyBorrwed(memberId);
+         int borrowLimit = member.getBorrowLimit();
+         
+         
+         if (currentBorrowed >= borrowLimit) {
+         System.out.println("This member has reached the borrowing limit!");
+         System.out.println("Current borrowed: " + currentBorrowed);
+         System.out.println("Borrow limit: " + borrowLimit);
+         return;
+}
+         
+         
 //        String memberName = InputHelper.Name();
 //        String phone = InputHelper.phone();
 //        String email = InputHelper.email();
@@ -225,4 +238,21 @@ public class Borrowing_Returning {
         }
         return false;
     }
+    
+    public static int countCurrentyBorrwed(String memberId)
+    {
+         int count = 0;
+
+    for (Borrowing b : listBorrow) {
+        if (b.getMemberId().equalsIgnoreCase(memberId) && !b.isReturned()) {
+            count++;
+        }
+    }
+
+    return count;
+    }
+    
+    
+    
+    
 }

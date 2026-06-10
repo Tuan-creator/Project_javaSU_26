@@ -96,4 +96,5 @@ public abstract class Member {
     
     
     public abstract double calculateFine(int daysOverdue);
+    public abstract int getBorrowLimit();
 }

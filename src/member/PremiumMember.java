@@ -23,6 +23,11 @@ public class PremiumMember extends Member {
         }
         this.limit = limit;
     }
+    
+    @Override
+  public int getBorrowLimit() {
+    return limit;
+} 
 
     @Override
     public double calculateFine(int daysOverdue) {

@@ -163,6 +163,13 @@ public class Manage_Book {
             System.out.println("Book ID not found!");
             return;
         }
+        
+        if (Borrowing_Returning.isBookBorrowed(bookId))
+        {
+            System.out.println("Can not delete!");
+             System.out.println("This book is currently borrowed.");
+         return;
+        }
 
         System.out.println("Current Info: " + book);
         int currentQty = book.getQuantity();

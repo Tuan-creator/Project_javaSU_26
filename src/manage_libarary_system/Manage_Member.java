@@ -147,8 +147,8 @@ public class Manage_Member {
             return;
         }
 
-        System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6s | %-10s\n", 
-                "ID", "Name", "Phone", "Email", "Type", "Limit", "Fine/1 Day");
+        System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6s | %-8s | %-10s\n", 
+                "ID", "Name", "Phone", "Email", "Type", "Limit","Borrowed", "Fine/1 Day");
         System.out.println("---------------------------------------------------------------------------------------------------------------------");
         
         for (Member m : memberList) {
@@ -164,9 +164,11 @@ public class Manage_Member {
             }
             
             double fineValue = m.calculateFine(1);
+            int borrowedCount = Borrowing_Returning.countCurrentyBorrwed(m.getMemberId());
             
-            System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d | %-10.1f\n", 
-                    m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), memberType, limitValue, fineValue);
+            
+            System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d | %-8d | %-10.1f\n", 
+                    m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), memberType, limitValue,borrowedCount, fineValue);
         }
     }
 
@@ -206,9 +208,10 @@ public class Manage_Member {
                 }
                 
                 double fineValue = m.calculateFine(1);
+                int borrowedCount = Borrowing_Returning.countCurrentyBorrwed(m.getMemberId());
                 
-                System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d | %-10.1f\n", 
-                        m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), memberType, limitValue, fineValue);
+                System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d |%-8a | %-10.1f\n", 
+                        m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), memberType, limitValue,borrowedCount, fineValue);
             }
         }
     }
