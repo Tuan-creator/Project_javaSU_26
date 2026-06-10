@@ -200,13 +200,13 @@ public class Manage_Book {
             return;
         }
 
-        printTableHeader();
+        printTableHeader(); 
         for (Book b : bookList) {
-            System.out.println(b); 
+            printTableRow(b.getBookId(), b.getTitle(), b.getAuthor(), b.getGenre(), b.getPubYear(), b.getQuantity()); 
         }
-        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println(SEPARATOR_LINE); 
         System.out.println("Total quantity of books in stock: " + getTotalQuantity());
-        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println(SEPARATOR_LINE);
     }
 
     // 5. Menu con Tìm kiếm Sách
@@ -245,7 +245,7 @@ public class Manage_Book {
         for (Book b : bookList) {
             String target = (type == 1) ? b.getBookId() : (type == 2) ? b.getTitle() : b.getAuthor();
             if (target != null && target.toLowerCase().contains(keyword)) {
-                System.out.println(b);
+                printTableRow(b.getBookId(), b.getTitle(), b.getAuthor(), b.getGenre(), b.getPubYear(), b.getQuantity());
                 found = true;
             }
         }
@@ -269,16 +269,28 @@ public class Manage_Book {
         }
         return total;
     }
-     public static void printTableHeader() {
-        System.out.println("--------------------------------------------------------------------------------");
-        System.out.println("ID \t| Title \t\t| Author \t\t| Genre \t| Year \t| Qty");
-        System.out.println("--------------------------------------------------------------------------------");
+    private static final String SEPARATOR_LINE = "+----------+---------------------------+----------------------+-----------------+--------+-------+";
+     
+    private static final String TABLE_HEADER_FORMAT = "| %-8s | %-25s | %-20s | %-15s | %6s | %5s |%n";
+    private static final String TABLE_ROW_FORMAT    = "| %-8s | %-25s | %-20s | %-15s | %6d | %5d |%n";
+
+    public static void printTableHeader() {
+        System.out.println(SEPARATOR_LINE);
+        System.out.printf(TABLE_HEADER_FORMAT, "ID", "Title", "Author", "Genre", "Year", "Qty");
+        System.out.println(SEPARATOR_LINE);
+    }
+
+    // Hàm in dữ liệu khớp hoàn toàn theo hàng lối
+    public static void printTableRow(String id, String title, String author, String genre, int year, int qty) {
+        System.out.printf(TABLE_ROW_FORMAT, id, title, author, genre, year, qty);
     }
 
     public static void printTableFooter(boolean found, String keyword) {
-        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println(SEPARATOR_LINE);
         if (!found) {
-            System.out.println("No books match the keyword: '" + keyword + "'");
+         
+            System.out.printf("| %-96s |%n", "No books match the keyword: '" + keyword + "'");
+            System.out.println(SEPARATOR_LINE);
         }
     }
 }
