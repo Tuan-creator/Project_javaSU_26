@@ -16,6 +16,8 @@ public class Borrowing {
     private LocalDate borrowDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
+    private double fine;
+    
     
     
     
@@ -43,9 +45,15 @@ public class Borrowing {
     }
 
     
+   public double getFine() {
+    return fine;
+}
 
+public void setFine(double fine) {
+    this.fine = fine;
+}
 
-
+    
 
     public String getEmail() {
         return email;

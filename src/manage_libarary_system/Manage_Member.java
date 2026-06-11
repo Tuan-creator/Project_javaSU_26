@@ -88,7 +88,7 @@ public class Manage_Member {
     public static void updateMember() {
         System.out.println("\n--- Update Member ---");
         System.out.print("Enter Member ID to update: ");
-        String id = sc.nextLine().trim();
+        String id=InputHelper.memId();
 
         Member m = findMemberById(id);
         if (m == null) {
@@ -127,14 +127,24 @@ public class Manage_Member {
     public static void removeMember() {
         System.out.println("\n--- Remove Member ---");
         System.out.print("Enter Member ID to remove: ");
-        String id = sc.nextLine().trim();
+        String id=InputHelper.memId();
+        
 
         Member m = findMemberById(id);
         if (m == null) {
             System.out.println("Member ID not found!");
             return;
         }
-
+        
+        int borrowedCount=Borrowing_Returning.countCurrentyBorrwed(id);
+        
+        if (borrowedCount>0)
+        {
+           System.out.println("Cannot remove this member!");
+           System.out.println("This member still has borrowed books: " + borrowedCount);
+           return;
+        }
+        
         memberList.remove(m);
         System.out.println("Remove Member Successfully!");
     }

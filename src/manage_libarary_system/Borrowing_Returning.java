@@ -152,6 +152,24 @@ public class Borrowing_Returning {
 
         LocalDate returnDate = InputHelper.returnDate(found.getBorrowDate());
         found.setReturnDate(returnDate);
+        long daysOverdue = 0;
+        if (returnDate.isAfter(found.getDueDate()))
+        {
+            daysOverdue=returnDate.toEpochDay()-found.getDueDate().toEpochDay();
+        }
+        
+        
+        Member member =Manage_Member.findMemberById(found.getMemberId());
+        
+        double fine=0;
+        if (member!=null)
+        {
+           fine=member.calculateFine((int)daysOverdue);
+        }
+        found.setFine(fine);
+        
+        
+        
         Book book = Manage_Book.findBookById(found.getBookId());
         
         if (book!=null)
@@ -217,6 +235,7 @@ public class Borrowing_Returning {
                 System.out.println("Due Date       : " + b.getDueDate());
                 System.out.println("Return Date    : " + b.getReturnDate());
                 System.out.println("Status         : " + (b.isReturned() ? "Returned" : "No Return"));
+                System.out.println("Fine           : " + b.getFine());
                 System.out.println("--------------------------------------------");
 
                 found = true;
@@ -252,6 +271,17 @@ public class Borrowing_Returning {
     return count;
     }
     
+    public static boolean isBookBorrowed(String bookId)
+    {
+        for (Borrowing b:listBorrow)
+        {
+            if (b.getBookId().equalsIgnoreCase(bookId)&& !b.isReturned())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     
     
     
