@@ -210,7 +210,7 @@ public class Manage_Member {
                 double fineValue = m.calculateFine(1);
                 int borrowedCount = Borrowing_Returning.countCurrentyBorrwed(m.getMemberId());
                 
-                System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d |%-8a | %-10.1f\n", 
+                System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d |%-8d | %-10.1f\n", 
                         m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), memberType, limitValue,borrowedCount, fineValue);
             }
         }
