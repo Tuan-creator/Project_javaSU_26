@@ -217,47 +217,63 @@ public class Manage_Book {
     }
 
     // 5. Menu con Tìm kiếm Sách
-    public static void searchBook() {
-        if (bookList.isEmpty()) {
-            System.out.println("\nLibrary has no books to search!");
-            return;
+   public static void searchBook() {
+    if (bookList.isEmpty()) {
+        System.out.println("\nLibrary has no books to search!");
+        return;
+    }
+
+    int subChoice;
+    do {
+        showSearchMenu(); 
+        try {
+            subChoice = Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            subChoice = -1;
         }
 
-        int subChoice;
-        do {
-            showSearchMenu(); 
-            try {
-                subChoice = Integer.parseInt(sc.nextLine());
-            } catch (NumberFormatException e) {
-                subChoice = -1;
-            }
-
-            if (subChoice >= 1 && subChoice <= 3) {
-                String prompt = (subChoice == 1) ? "Enter Book ID to search: " : (subChoice == 2) ? "Enter Title to search: " : "Enter Author to search: ";
-                searchByKey(prompt, subChoice);
-            } else if (subChoice == 4) {
-                System.out.println("Returning to Book Management Menu...");
+        if (subChoice >= 1 && subChoice <= 3) {
+            String prompt;
+            if (subChoice == 1) {
+                prompt = "Enter Book ID to search: ";
+            } else if (subChoice == 2) {
+                prompt = "Enter Title to search: ";
             } else {
-                System.out.println("Invalid choice! Please choose from 1 to 4.");
+                prompt = "Enter Author to search: ";
             }
-        } while (subChoice != 4);
-    }
-
-    // --- HÀM TÌM KIẾM ĐA NĂNG GỘP ---
-    private static void searchByKey(String prompt, int type) {
-        System.out.print(prompt);
-        String keyword = sc.nextLine().trim().toLowerCase();
-        boolean found = false;
-        printTableHeader();
-        for (Book b : bookList) {
-            String target = (type == 1) ? b.getBookId() : (type == 2) ? b.getTitle() : b.getAuthor();
-            if (target != null && target.toLowerCase().contains(keyword)) {
-                printTableRow(b.getBookId(), b.getTitle(), b.getAuthor(), b.getGenre(), b.getPubYear(), b.getQuantity());
-                found = true;
-            }
+            searchByKey(prompt, subChoice);
+        } else if (subChoice == 4) {
+            System.out.println("Returning to Book Management Menu...");
+        } else {
+            System.out.println("Invalid choice! Please choose from 1 to 4.");
         }
-        printTableFooter(found, keyword);
+    } while (subChoice != 4);
+}
+
+// --- HÀM TÌM KIẾM ĐA NĂNG GỘP ---
+private static void searchByKey(String prompt, int type) {
+    System.out.print(prompt);
+    String keyword = sc.nextLine().trim().toLowerCase();
+    boolean found = false;
+    printTableHeader();
+    
+    for (Book b : bookList) {
+        String target;
+        if (type == 1) {
+            target = b.getBookId();
+        } else if (type == 2) {
+            target = b.getTitle();
+        } else {
+            target = b.getAuthor();
+        }
+        
+        if (target != null && target.toLowerCase().contains(keyword)) {
+            printTableRow(b.getBookId(), b.getTitle(), b.getAuthor(), b.getGenre(), b.getPubYear(), b.getQuantity());
+            found = true;
+        }
     }
+    printTableFooter(found, keyword);
+}
 
     // --- CÁC HÀM HỖ TRỢ ---
     public static Book findBookById(String bookId) {
