@@ -9,10 +9,13 @@ import util.InputHelper;
 public class Menu {
 
     public static void main(String[] args) {
-        Borrowing_Returning Br=new Borrowing_Returning();
-        Manage_Book Mb = new Manage_Book();
-        Manage_Member Mm = new Manage_Member();
+        Manage_Book bookManager = new Manage_Book();
+        Manage_Member memberManager = new Manage_Member();
+
+        Borrowing_Returning borrowingManager = new Borrowing_Returning(bookManager, memberManager);
         
+       bookManager.setBorrowingManager(borrowingManager);
+
         
         
         
@@ -31,18 +34,18 @@ public class Menu {
             switch (mainChoice) {
                 case 1:
                     
-                    Manage_Book.showMenu();
+                    bookManager.showMenu();
                     break;
                        
                     
                     
                 case 2:
-                    Manage_Member.showMenu();
+                     memberManager.showMenu();
                     break;
                     
                 case 3:
                    
-                   Borrowing_Returning.showMenu();
+                      borrowingManager.showMenu();
                    break;
                     
                 case 4:

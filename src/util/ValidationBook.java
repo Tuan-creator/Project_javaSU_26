@@ -56,7 +56,7 @@ public class ValidationBook {
      // dinh dang name cua author vd: nguyen NHAT ANH -> Nguyen Nhat Anh
      public static String formatName(String name)
      {
-         name=name.trim().toLowerCase();
+        name=name.trim().toLowerCase();
          
          String[] words =name.split("\\s+");
          String result="";

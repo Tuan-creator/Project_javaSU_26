@@ -9,11 +9,17 @@ import util.InputHelper;
 
 public class Borrowing_Returning {
 
-    static ArrayList<Borrowing> listBorrow = new ArrayList<>();
-    static ArrayList<Member> listMember = new ArrayList<>();
+    private ArrayList<Borrowing> listBorrow = new ArrayList<>();
+//    private  ArrayList<Member> listMember = new ArrayList<>();
+        private Manage_Book bookManager;
+       private Manage_Member memberManager;
     
+    public Borrowing_Returning(Manage_Book bookManager, Manage_Member memberManager) {
+    this.bookManager = bookManager;
+    this.memberManager = memberManager;
+}
 
-   public static void showMenu() {
+   public void showMenu() {
         int choice;
         do {
             System.out.println("\n===== BORROWING / RETURNING =====");
@@ -51,7 +57,7 @@ public class Borrowing_Returning {
     }
 
     // Borrow Book
-    public static void borrowBook() {
+    public void borrowBook() {
         String transactionId = InputHelper.tranId();
 
         if (isExistBorrowId(transactionId)) {
@@ -62,7 +68,7 @@ public class Borrowing_Returning {
         
         
         String memberId = InputHelper.memId();
-        Member member = Manage_Member.findMemberById(memberId);
+        Member member = memberManager.findMemberById(memberId);
 
        if (member == null) {
         System.out.println("Member ID not found!");
@@ -70,10 +76,6 @@ public class Borrowing_Returning {
           }
 
 
-         if (member == null) {
-               System.out.println("Member ID not found!");
-               return;
-             } 
          
          int currentBorrowed = countCurrentyBorrwed(memberId);
          int borrowLimit = member.getBorrowLimit();
@@ -96,7 +98,7 @@ public class Borrowing_Returning {
 
         String bookId = InputHelper.BookId();
         
-        Book book=  Manage_Book.findBookById(bookId);
+        Book book = bookManager.findBookById(bookId);
         if (book==null)
         {
             System.out.println("Book ID not found!");
@@ -123,7 +125,7 @@ public class Borrowing_Returning {
 
     
     // Return Book
-    public static void returnBook() {
+    public  void returnBook() {
 
         if (listBorrow.isEmpty()) {
             System.out.println("Borrow list is empty!");
@@ -159,7 +161,7 @@ public class Borrowing_Returning {
         }
         
         
-        Member member =Manage_Member.findMemberById(found.getMemberId());
+       Member member = memberManager.findMemberById(found.getMemberId());
         
         double fine=0;
         if (member!=null)
@@ -170,8 +172,7 @@ public class Borrowing_Returning {
         
         
         
-        Book book = Manage_Book.findBookById(found.getBookId());
-        
+      Book book = bookManager.findBookById(found.getBookId());
         if (book!=null)
         {
             book.setQuantity(book.getQuantity()+1);
@@ -181,7 +182,7 @@ public class Borrowing_Returning {
     }
 
     // View All Borrowed Books
-    public static void viewBorrowList() {
+    public  void viewBorrowList() {
 
         if (listBorrow.isEmpty()) {
             System.out.println("No borrowed books.");
@@ -211,7 +212,7 @@ public class Borrowing_Returning {
     }
 
     // View History By Member
-    public static void viewHistory() {
+    public  void viewHistory() {
 
         if (listBorrow.isEmpty()) {
             System.out.println("Borrow history is empty!");
@@ -248,7 +249,7 @@ public class Borrowing_Returning {
     }
 
     // Check Transaction ID
-    public static boolean isExistBorrowId(String transactionId) {
+    public  boolean isExistBorrowId(String transactionId) {
 
         for (Borrowing b : listBorrow) {
             if (b.getTransactionId().equalsIgnoreCase(transactionId)) {
@@ -258,7 +259,7 @@ public class Borrowing_Returning {
         return false;
     }
     
-    public static int countCurrentyBorrwed(String memberId)
+    public  int countCurrentyBorrwed(String memberId)
     {
          int count = 0;
 
@@ -271,7 +272,7 @@ public class Borrowing_Returning {
     return count;
     }
     
-    public static boolean isBookBorrowed(String bookId)
+    public boolean isBookBorrowed(String bookId)
     {
         for (Borrowing b:listBorrow)
         {

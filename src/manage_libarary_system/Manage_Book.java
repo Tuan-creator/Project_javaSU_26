@@ -7,13 +7,18 @@ import java.util.Scanner;
 import util.InputHelper;
 import util.ValidationBook;
 
-public class Manage_Book {
-
+public class Manage_Book implements IBookManager {
+    
+    private Borrowing_Returning borrowingManager;
     static Scanner sc = new Scanner(System.in);
+    public void setBorrowingManager(Borrowing_Returning borrowingManager) {
+    this.borrowingManager = borrowingManager;
+}
     // Danh sách lưu trữ tất cả các cuốn sách trong thư viện
-     public static ArrayList<Book> bookList = new ArrayList<>();
+    private  ArrayList<Book> bookList = new ArrayList<>();
 
- public static void showMenu() {
+
+ public  void showMenu() {
     int choice;
     do {
         System.out.println("\n===== BOOK MANAGEMENT =====");
@@ -62,7 +67,7 @@ public class Manage_Book {
 //        System.out.print("Choose: ");
 //    }
 
-    public static void showSearchMenu() {
+    public void showSearchMenu() {
         System.out.println("\n===== SEARCH BOOK =====");
         System.out.println("1. Search by Book ID");
         System.out.println("2. Search by Title");
@@ -72,7 +77,7 @@ public class Manage_Book {
     }
 
   // addbook
-    public static void addBook() {
+    public void addBook() {
         System.out.println("\n--- Add New Book ---");
         try {
             String bookId;
@@ -99,7 +104,7 @@ public class Manage_Book {
     }
 
     // update
-    public static void updateBook() {
+    public void updateBook() {
         System.out.println("\n--- Update Book Information ---");
         System.out.print("Enter Book ID to update: ");
         String bookId = sc.nextLine().trim().toUpperCase();
@@ -153,7 +158,7 @@ public class Manage_Book {
     }
 
     // delete book 
-    public static void deleteBook() {
+    public void deleteBook() {
         System.out.println("\n--- Delete / Decrease Book Quantity ---");
         System.out.print("Enter Book ID to delete: ");
         String bookId = sc.nextLine().trim();
@@ -164,7 +169,7 @@ public class Manage_Book {
             return;
         }
         
-        if (Borrowing_Returning.isBookBorrowed(bookId))
+        if (borrowingManager.isBookBorrowed(bookId))
         {
             System.out.println("Can not delete!");
              System.out.println("This book is currently borrowed.");
@@ -200,7 +205,7 @@ public class Manage_Book {
     }
 
     // 4. Xem danh sách sách
-    public static void viewAllBooks() {
+    public void viewAllBooks() {
         System.out.println("\n--- All Books In Library ---");
         if (bookList.isEmpty()) {
             System.out.println("No books available in the library.");
@@ -217,7 +222,7 @@ public class Manage_Book {
     }
 
     // 5. Menu con Tìm kiếm Sách
-   public static void searchBook() {
+   public void searchBook() {
     if (bookList.isEmpty()) {
         System.out.println("\nLibrary has no books to search!");
         return;
@@ -251,7 +256,7 @@ public class Manage_Book {
 }
 
 // --- HÀM TÌM KIẾM ĐA NĂNG GỘP ---
-private static void searchByKey(String prompt, int type) {
+private void searchByKey(String prompt, int type) {
     System.out.print(prompt);
     String keyword = sc.nextLine().trim().toLowerCase();
     boolean found = false;
@@ -276,7 +281,7 @@ private static void searchByKey(String prompt, int type) {
 }
 
     // --- CÁC HÀM HỖ TRỢ ---
-    public static Book findBookById(String bookId) {
+    public Book findBookById(String bookId) {
         for (Book b : bookList) {
             if (b.getBookId() != null && b.getBookId().equalsIgnoreCase(bookId.trim())) {
                 return b;
@@ -285,30 +290,30 @@ private static void searchByKey(String prompt, int type) {
         return null;
     }
 
-    public static int getTotalQuantity() {
+    public int getTotalQuantity() {
         int total = 0;
         for (Book b : bookList) {
             total += b.getQuantity();
         }
         return total;
     }
-    private static final String SEPARATOR_LINE = "+----------+---------------------------+----------------------+-----------------+--------+-------+";
+    private final String SEPARATOR_LINE = "+----------+---------------------------+----------------------+-----------------+--------+-------+";
      
-    private static final String TABLE_HEADER_FORMAT = "| %-8s | %-25s | %-20s | %-15s | %6s | %5s |%n";
-    private static final String TABLE_ROW_FORMAT    = "| %-8s | %-25s | %-20s | %-15s | %6d | %5d |%n";
+    private final String TABLE_HEADER_FORMAT = "| %-8s | %-25s | %-20s | %-15s | %6s | %5s |%n";
+    private  final String TABLE_ROW_FORMAT    = "| %-8s | %-25s | %-20s | %-15s | %6d | %5d |%n";
 
-    public static void printTableHeader() {
+    public void printTableHeader() {
         System.out.println(SEPARATOR_LINE);
         System.out.printf(TABLE_HEADER_FORMAT, "ID", "Title", "Author", "Genre", "Year", "Qty");
         System.out.println(SEPARATOR_LINE);
     }
 
     // Hàm in dữ liệu khớp hoàn toàn theo hàng lối
-    public static void printTableRow(String id, String title, String author, String genre, int year, int qty) {
+    public  void printTableRow(String id, String title, String author, String genre, int year, int qty) {
         System.out.printf(TABLE_ROW_FORMAT, id, title, author, genre, year, qty);
     }
 
-    public static void printTableFooter(boolean found, String keyword) {
+    public void printTableFooter(boolean found, String keyword) {
         System.out.println(SEPARATOR_LINE);
         if (!found) {
          

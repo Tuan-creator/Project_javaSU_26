@@ -1,6 +1,7 @@
 
 package util;
 
+import book.Book;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -204,7 +205,7 @@ public class InputHelper {
            while (true) {
 
         System.out.print("Nhap ngay muon (dd/MM/yyyy): ");
-        String input = n.nextLine().trim();
+         String input = n.nextLine().trim();
 
         if (!ValidationBorrow.isValidDateFormat(input)) {
             System.out.println("Sai dinh dang ngay!");
@@ -227,7 +228,8 @@ public class InputHelper {
         while(true)
         {
             System.out.println("Nhap vao ngay het han (dd/MM/yyyy): ");
-            String input =n.nextLine().trim();
+             String input =n.nextLine().trim();
+            Book b= new Book();
             
             if (!ValidationBorrow.isValidDateFormat(input))
             {
@@ -236,12 +238,17 @@ public class InputHelper {
             }
             
             LocalDate dueDate =LocalDate.parse(input,dateformat);
+            if (dueDate.getYear()<b.getPubYear())
+            {
+                System.out.println("Due year can not smaller than publicYear");
+                continue;
+                
+            }
             if (ValidationBorrow.isValidDueDate(borrowDate, dueDate))
             {
                 return dueDate;
             }
             System.out.println("Nhap lai di:");
-                    
         }
         
                 
@@ -253,6 +260,8 @@ public class InputHelper {
        {
               System.out.print("Nhap ngay tra sach (dd/MM/yyyy): ");
         String input = n.nextLine().trim();
+         Book b= new Book();
+         
 
         if (!ValidationBorrow.isValidDateFormat(input)) {
             System.out.println("Sai dinh dang ngay!");
@@ -260,6 +269,10 @@ public class InputHelper {
         }
 
         LocalDate returnDate = LocalDate.parse(input, dateformat);
+        if (returnDate.getYear()<b.getPubYear())
+        {
+            System.out.println("Return year can not smaller han pubYear");
+        }
 
         if (ValidationBorrow.isValidReturnDate(borrowDate, returnDate)) {
             return returnDate;
