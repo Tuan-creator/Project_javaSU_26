@@ -211,7 +211,7 @@ public class Manage_Book implements IBookManager {
             System.out.println("No books available in the library.");
             return;
         }
-
+        sortBookById();
         printTableHeader(); 
         for (Book b : bookList) {
             printTableRow(b.getBookId(), b.getTitle(), b.getAuthor(), b.getGenre(), b.getPubYear(), b.getQuantity()); 
@@ -320,5 +320,16 @@ private void searchByKey(String prompt, int type) {
             System.out.printf("| %-96s |%n", "No books match the keyword: '" + keyword + "'");
             System.out.println(SEPARATOR_LINE);
         }
+    }
+    // sap xep book
+    public void sortBookById() {
+    
+
+    Collections.sort(bookList, new Comparator<Book>() {
+        @Override
+        public int compare(Book a, Book b) {
+            return a.getBookId().compareToIgnoreCase(b.getBookId());
+            }
+        });
     }
 }
