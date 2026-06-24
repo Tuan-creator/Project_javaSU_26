@@ -314,6 +314,7 @@ private void searchByKey(String prompt, int type) {
             System.out.println(SEPARATOR_LINE);
         }
     }
+    // sap xep theo id
     public void sortBookById() {
     
 
@@ -324,4 +325,14 @@ private void searchByKey(String prompt, int type) {
             }
         });
     }
+    // sap xep theo luot muon giam dan
+    public void sortBookByBorrowCount() {
+    Collections.sort(bookList, new Comparator<Book>() {
+        @Override
+        public int compare(Book a, Book b) {
+            return Integer.compare(b.getBorrowCount(), a.getBorrowCount()); 
+        }
+    });
+    System.out.println("Sorted by borrow count (descending) successfully!");
+}
 }
