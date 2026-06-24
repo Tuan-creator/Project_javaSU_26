@@ -28,7 +28,7 @@ public class Book {
        
     }
     
-    
+     private int borrowCount = 0;
     
     // getter and setter
     public String getBookId(){
