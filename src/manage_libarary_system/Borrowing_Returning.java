@@ -122,6 +122,7 @@ public class Borrowing_Returning {
 
         listBorrow.add(borrow);
         book.setQuantity(book.getQuantity()-1);
+        book.setBorrowCount(book.getBorrowCount() + 1);
         System.out.println("Borrow Book Successfully!");
     }
 
