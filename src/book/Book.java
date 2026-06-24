@@ -46,7 +46,13 @@ public class Book {
     }
     
     
-    
+        public int getBorrowCount() {
+        return borrowCount;
+    }
+
+        public void setBorrowCount(int borrowCount) {
+        this.borrowCount = borrowCount;
+    }
      
     public String getTitle(){
         return title;
