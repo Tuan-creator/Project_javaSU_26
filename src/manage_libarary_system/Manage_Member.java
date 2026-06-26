@@ -1,6 +1,8 @@
 package manage_libarary_system;
 
 import java.util.ArrayList;
+import java.util.Collections; 
+import java.util.Comparator;  
 import java.util.Scanner;
 import member.Member;
 import member.RegularMember;
@@ -10,18 +12,15 @@ import util.InputHelper;
 public class  Manage_Member implements IMemberManager {
     private Borrowing_Returning borrowingManager; 
     
-    
-    
     public void setBorrowingManager(Borrowing_Returning borrowingManager) 
     {
-    this.borrowingManager = borrowingManager;
+        this.borrowingManager = borrowingManager;
     }
     
-    
     static Scanner sc = new Scanner(System.in);
-    private  ArrayList<Member> memberList = new ArrayList<>();
+    private ArrayList<Member> memberList = new ArrayList<>();
 
-    public  void showMenu() {
+    public void showMenu() {
         int choice = 0;
         do {
             System.out.println("\n===== MEMBER MANAGEMENT =====");
@@ -30,7 +29,8 @@ public class  Manage_Member implements IMemberManager {
             System.out.println("3. Remove Member");
             System.out.println("4. View All Members");
             System.out.println("5. Search Member");
-            System.out.println("6. Back to Main Menu");
+            System.out.println("6. Sort Options"); 
+            System.out.println("7. Back to Main Menu"); 
 
             choice = InputHelper.inputInt("Choose an option: ");
 
@@ -51,17 +51,50 @@ public class  Manage_Member implements IMemberManager {
                     searchMember();
                     break;
                 case 6:
+                    showMenuSort();
+                    break;
+                case 7:
                     System.out.println("Back to Main Menu...");
                     break;
                 default:
-                    System.out.println("Invalid choice! Please choose from 1 to 6.");
+                    System.out.println("Invalid choice! Please choose from 1 to 7.");
             }
-        } while (choice != 6);
+        } while (choice != 7);
+    }
+
+    private void showMenuSort() {
+        int sortChoice;
+        do {
+            System.out.println("\n----- SORT OPTIONS -----");
+            System.out.println("1. Sort by Member ID (A-Z)");
+            System.out.println("2. Sort by Borrowed Book Count (Ascending)");
+            System.out.println("3. Sort by Fine Value (Ascending)");
+            System.out.println("4. Back to Member Management");
+
+            sortChoice = InputHelper.inputInt("Your choice: ");
+
+            switch (sortChoice) {
+                case 1: 
+                    sortMemberById(); 
+                    break;
+                case 2: 
+                    sortMemberByBorrowedCount(); 
+                    break;
+                case 3: 
+                    sortMemberByFineValue(); 
+                    break;
+                case 4: 
+                    System.out.println("Returning to Management Menu..."); 
+                    break;
+                default: 
+                    System.out.println("Invalid choice!");
+            }
+        } while (sortChoice != 4);
     }
 
     //1.add member
     @Override
-    public  void addMember() {
+    public void addMember() {
         System.out.println("\n--- Add Member ---");
 
         String id = InputHelper.memId();
@@ -96,7 +129,7 @@ public class  Manage_Member implements IMemberManager {
 
     //2.update member
     @Override
-    public  void updateMember() {
+    public void updateMember() {
         System.out.println("\n--- Update Member ---");
         System.out.print("Enter Member ID to update: ");
         String id=InputHelper.memId();
@@ -136,7 +169,7 @@ public class  Manage_Member implements IMemberManager {
 
     //3.remove member
     @Override
-    public  void removeMember() {
+    public void removeMember() {
         System.out.println("\n--- Remove Member ---");
         System.out.print("Enter Member ID to remove: ");
         String id=InputHelper.memId();
@@ -163,7 +196,7 @@ public class  Manage_Member implements IMemberManager {
 
     //4.view all member
     @Override
-    public  void viewAllMember() {
+    public void viewAllMember() {
         System.out.println("\n--- View All Member ---");
         if (memberList.isEmpty()) {
             System.out.println("No members registered in the library.");
@@ -239,9 +272,67 @@ public class  Manage_Member implements IMemberManager {
             }
         }
     }
+    //6.sort
+    @Override
+    public void sortMemberById() {
+        if (memberList.isEmpty()) {
+            System.out.println("List is empty. Nothing to sort.");
+            return;
+        }
+        Collections.sort(memberList, new Comparator<Member>() {
+            @Override
+            public int compare(Member m1, Member m2) {
+                return m1.getMemberId().compareToIgnoreCase(m2.getMemberId());
+            }
+        });
+        System.out.println("Sorted all members by ID successfully!");
+        viewAllMember();
+    }
+
+    @Override
+    public void sortMemberByBorrowedCount() {
+        if (memberList.isEmpty()) {
+            System.out.println("List is empty.");
+            return;
+        }
+        Collections.sort(memberList, new Comparator<Member>() {
+            @Override
+            public int compare(Member m1, Member m2) {
+                int count1 = 0, count2 = 0;
+                if (borrowingManager != null) {
+                    count1 = borrowingManager.countCurrentyBorrwed(m1.getMemberId());
+                    count2 = borrowingManager.countCurrentyBorrwed(m2.getMemberId());
+                }
+                if (count1 == count2) {
+                    return m1.getMemberId().compareToIgnoreCase(m2.getMemberId());
+                }
+                return Integer.compare(count1, count2);
+            }
+        });
+        System.out.println("Sorted by Borrowed Count (ASC) successfully!");
+        viewAllMember();
+    }
+
+    @Override
+    public void sortMemberByFineValue() {
+        if (memberList.isEmpty()) {
+            System.out.println("List is empty.");
+            return;
+        }
+        Collections.sort(memberList, new Comparator<Member>() {
+            @Override
+            public int compare(Member m1, Member m2) {
+                double f1 = m1.calculateFine(1);
+                double f2 = m2.calculateFine(1);
+                return Double.compare(f1, f2);
+            }
+        });
+        System.out.println("Sorted by Fine Value (ASC) successfully!");
+        viewAllMember();
+    }
 
     //Ham phu tro
-    public  Member findMemberById(String id) {
+    public Member findMemberById(String id) {
         for (Member m : memberList) {
             if (m.getMemberId().equalsIgnoreCase(id.trim())) {
                 return m;
@@ -250,7 +341,7 @@ public class  Manage_Member implements IMemberManager {
         return null;
     }
 
-    public void main(String[] args) {
-        showMenu();
+    public static void main(String[] args) {
+        new Manage_Member().showMenu();
     }
 }
