@@ -10,6 +10,9 @@ public interface IMemberManager {
     void removeMember();
     void viewAllMember();
     void searchMember();
+    void sortMemberById();
+    void sortMemberByBorrowedCount();
+    void sortMemberByFineValue();
     
 
 }
