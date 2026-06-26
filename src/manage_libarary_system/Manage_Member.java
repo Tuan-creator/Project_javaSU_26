@@ -7,12 +7,21 @@ import member.RegularMember;
 import member.PremiumMember; 
 import util.InputHelper;
 
-public class Manage_Member {
-
+public class  Manage_Member implements IMemberManager {
+    private Borrowing_Returning borrowingManager; 
+    
+    
+    
+    public void setBorrowingManager(Borrowing_Returning borrowingManager) 
+    {
+    this.borrowingManager = borrowingManager;
+    }
+    
+    
     static Scanner sc = new Scanner(System.in);
-    public static ArrayList<Member> memberList = new ArrayList<>();
+    private  ArrayList<Member> memberList = new ArrayList<>();
 
-    public static void showMenu() {
+    public  void showMenu() {
         int choice = 0;
         do {
             System.out.println("\n===== MEMBER MANAGEMENT =====");
@@ -51,7 +60,8 @@ public class Manage_Member {
     }
 
     //1.add member
-    public static void addMember() {
+    @Override
+    public  void addMember() {
         System.out.println("\n--- Add Member ---");
 
         String id = InputHelper.memId();
@@ -85,7 +95,8 @@ public class Manage_Member {
     }
 
     //2.update member
-    public static void updateMember() {
+    @Override
+    public  void updateMember() {
         System.out.println("\n--- Update Member ---");
         System.out.print("Enter Member ID to update: ");
         String id=InputHelper.memId();
@@ -124,7 +135,8 @@ public class Manage_Member {
     }
 
     //3.remove member
-    public static void removeMember() {
+    @Override
+    public  void removeMember() {
         System.out.println("\n--- Remove Member ---");
         System.out.print("Enter Member ID to remove: ");
         String id=InputHelper.memId();
@@ -136,7 +148,7 @@ public class Manage_Member {
             return;
         }
         
-        int borrowedCount=Borrowing_Returning.countCurrentyBorrwed(id);
+        int borrowedCount=borrowingManager.countCurrentyBorrwed(id);
         
         if (borrowedCount>0)
         {
@@ -150,7 +162,8 @@ public class Manage_Member {
     }
 
     //4.view all member
-    public static void viewAllMember() {
+    @Override
+    public  void viewAllMember() {
         System.out.println("\n--- View All Member ---");
         if (memberList.isEmpty()) {
             System.out.println("No members registered in the library.");
@@ -174,7 +187,7 @@ public class Manage_Member {
             }
             
             double fineValue = m.calculateFine(1);
-            int borrowedCount = Borrowing_Returning.countCurrentyBorrwed(m.getMemberId());
+            int borrowedCount = borrowingManager.countCurrentyBorrwed(m.getMemberId());
             
             
             System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d | %-8d | %-10.1f\n", 
@@ -183,7 +196,8 @@ public class Manage_Member {
     }
 
     //5.search member
-    public static void searchMember() {
+    @Override
+    public void searchMember() {
         System.out.println("\n===== SEARCH MEMBER =====");
         System.out.println("1. Search by Member ID");
         System.out.println("2. Search by Name");
@@ -218,7 +232,7 @@ public class Manage_Member {
                 }
                 
                 double fineValue = m.calculateFine(1);
-                int borrowedCount = Borrowing_Returning.countCurrentyBorrwed(m.getMemberId());
+                int borrowedCount = borrowingManager.countCurrentyBorrwed(m.getMemberId());
                 
                 System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d |%-8d | %-10.1f\n", 
                         m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), memberType, limitValue,borrowedCount, fineValue);
@@ -227,7 +241,7 @@ public class Manage_Member {
     }
 
     //Ham phu tro
-    public static Member findMemberById(String id) {
+    public  Member findMemberById(String id) {
         for (Member m : memberList) {
             if (m.getMemberId().equalsIgnoreCase(id.trim())) {
                 return m;
@@ -236,7 +250,7 @@ public class Manage_Member {
         return null;
     }
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         showMenu();
     }
 }

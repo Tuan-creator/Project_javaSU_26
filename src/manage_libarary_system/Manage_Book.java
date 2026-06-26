@@ -77,6 +77,7 @@ public class Manage_Book implements IBookManager {
     }
 
   // addbook
+    @Override
     public void addBook() {
         System.out.println("\n--- Add New Book ---");
         try {
@@ -104,6 +105,7 @@ public class Manage_Book implements IBookManager {
     }
 
     // update
+    @Override
     public void updateBook() {
         System.out.println("\n--- Update Book Information ---");
         System.out.print("Enter Book ID to update: ");
@@ -158,6 +160,7 @@ public class Manage_Book implements IBookManager {
     }
 
     // delete book 
+    @Override
     public void deleteBook() {
         System.out.println("\n--- Delete / Decrease Book Quantity ---");
         System.out.print("Enter Book ID to delete: ");
@@ -205,6 +208,7 @@ public class Manage_Book implements IBookManager {
     }
 
     // 4. Xem danh sách sách
+    @Override
     public void viewAllBooks() {
         System.out.println("\n--- All Books In Library ---");
         if (bookList.isEmpty()) {
@@ -222,6 +226,7 @@ public class Manage_Book implements IBookManager {
     }
 
     // 5. Menu con Tìm kiếm Sách
+    @Override
    public void searchBook() {
     if (bookList.isEmpty()) {
         System.out.println("\nLibrary has no books to search!");

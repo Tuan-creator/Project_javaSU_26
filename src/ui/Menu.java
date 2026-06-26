@@ -15,7 +15,7 @@ public class Menu {
         Borrowing_Returning borrowingManager = new Borrowing_Returning(bookManager, memberManager);
         
        bookManager.setBorrowingManager(borrowingManager);
-
+       memberManager.setBorrowingManager(borrowingManager);
         
         
         

@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import member.Member;
 import util.InputHelper;
 
-public class Borrowing_Returning {
+public class Borrowing_Returning implements IBorrowingManager {
 
-    private ArrayList<Borrowing> listBorrow = new ArrayList<>();
+      private ArrayList<Borrowing> listBorrow = new ArrayList<>();
 //    private  ArrayList<Member> listMember = new ArrayList<>();
         private Manage_Book bookManager;
-       private Manage_Member memberManager;
+        private Manage_Member memberManager;
     
-    public Borrowing_Returning(Manage_Book bookManager, Manage_Member memberManager) {
-    this.bookManager = bookManager;
-    this.memberManager = memberManager;
+        public Borrowing_Returning(Manage_Book bookManager, Manage_Member memberManager) {
+        this.bookManager = bookManager;
+        this.memberManager = memberManager;
 }
 
    public void showMenu() {
@@ -57,6 +57,7 @@ public class Borrowing_Returning {
     }
 
     // Borrow Book
+   @Override
     public void borrowBook() {
         String transactionId = InputHelper.tranId();
 
@@ -125,6 +126,7 @@ public class Borrowing_Returning {
 
     
     // Return Book
+    @Override
     public  void returnBook() {
 
         if (listBorrow.isEmpty()) {
@@ -182,6 +184,7 @@ public class Borrowing_Returning {
     }
 
     // View All Borrowed Books
+    @Override
     public  void viewBorrowList() {
 
         if (listBorrow.isEmpty()) {
@@ -212,6 +215,7 @@ public class Borrowing_Returning {
     }
 
     // View History By Member
+    @Override
     public  void viewHistory() {
 
         if (listBorrow.isEmpty()) {
