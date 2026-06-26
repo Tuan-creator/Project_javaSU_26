@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import member.Member;
 import util.InputHelper;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Borrowing_Returning implements IBorrowingManager {
 
@@ -121,6 +123,7 @@ public class Borrowing_Returning implements IBorrowingManager {
 
         listBorrow.add(borrow);
         book.setQuantity(book.getQuantity()-1);
+        book.setBorrowCount(book.getBorrowCount() + 1);
         System.out.println("Borrow Book Successfully!");
     }
 
@@ -288,6 +291,13 @@ public class Borrowing_Returning implements IBorrowingManager {
         return false;
     }
     
-    
-    
+    public void sortByTransactionId() {
+    Collections.sort(listBorrow, new Comparator<Borrowing>() {
+        @Override
+        public int compare(Borrowing b1, Borrowing b2) {
+            return b1.getTransactionId().compareToIgnoreCase(b2.getTransactionId());
+        }
+    });
+    System.out.println("Sorted by Transaction ID successfully!");
+    }   
 }

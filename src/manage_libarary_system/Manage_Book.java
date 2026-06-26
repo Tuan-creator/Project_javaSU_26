@@ -3,7 +3,8 @@ package manage_libarary_system;
 import book.Book; 
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.Collections;
+import java.util.Comparator;
 import util.InputHelper;
 import util.ValidationBook;
 
@@ -18,7 +19,8 @@ public class Manage_Book implements IBookManager {
     private  ArrayList<Book> bookList = new ArrayList<>();
 
 
- public  void showMenu() {
+    
+ public void showMenu() {
     int choice;
     do {
         System.out.println("\n===== BOOK MANAGEMENT =====");
@@ -66,7 +68,6 @@ public class Manage_Book implements IBookManager {
 //        System.out.println("6. Exit");
 //        System.out.print("Choose: ");
 //    }
-
     public void showSearchMenu() {
         System.out.println("\n===== SEARCH BOOK =====");
         System.out.println("1. Search by Book ID");
@@ -109,7 +110,7 @@ public class Manage_Book implements IBookManager {
     public void updateBook() {
         System.out.println("\n--- Update Book Information ---");
         System.out.print("Enter Book ID to update: ");
-        String bookId = sc.nextLine().trim().toUpperCase();
+        String bookId = InputHelper.BookId();
 
         if (!ValidationBook.isValidBookId(bookId)) {
             System.out.println("Error: Invalid Book ID format!");
@@ -129,11 +130,7 @@ public class Manage_Book implements IBookManager {
         System.out.print("Your choice: ");
         
         int mode;
-        try {
-            mode = Integer.parseInt(sc.nextLine());
-        } catch (NumberFormatException e) {
-            mode = -1;
-        }
+        mode = InputHelper.inputInt("Enter mode");
 
         try {
             switch (mode) {
@@ -164,7 +161,7 @@ public class Manage_Book implements IBookManager {
     public void deleteBook() {
         System.out.println("\n--- Delete / Decrease Book Quantity ---");
         System.out.print("Enter Book ID to delete: ");
-        String bookId = sc.nextLine().trim();
+        String bookId = InputHelper.BookId();
 
         Book book = findBookById(bookId);
         if (book == null) {
@@ -215,7 +212,7 @@ public class Manage_Book implements IBookManager {
             System.out.println("No books available in the library.");
             return;
         }
-
+        sortBookById();
         printTableHeader(); 
         for (Book b : bookList) {
             printTableRow(b.getBookId(), b.getTitle(), b.getAuthor(), b.getGenre(), b.getPubYear(), b.getQuantity()); 
@@ -236,11 +233,7 @@ public class Manage_Book implements IBookManager {
     int subChoice;
     do {
         showSearchMenu(); 
-        try {
-            subChoice = Integer.parseInt(sc.nextLine());
-        } catch (NumberFormatException e) {
-            subChoice = -1;
-        }
+           subChoice = InputHelper.inputInt("Enter your choice");
 
         if (subChoice >= 1 && subChoice <= 3) {
             String prompt;
@@ -263,7 +256,7 @@ public class Manage_Book implements IBookManager {
 // --- HÀM TÌM KIẾM ĐA NĂNG GỘP ---
 private void searchByKey(String prompt, int type) {
     System.out.print(prompt);
-    String keyword = sc.nextLine().trim().toLowerCase();
+    String keyword = InputHelper.inputString("Enter keyword");
     boolean found = false;
     printTableHeader();
     
@@ -326,4 +319,25 @@ private void searchByKey(String prompt, int type) {
             System.out.println(SEPARATOR_LINE);
         }
     }
+    // sap xep theo id
+    public void sortBookById() {
+    
+
+    Collections.sort(bookList, new Comparator<Book>() {
+        @Override
+        public int compare(Book a, Book b) {
+            return a.getBookId().compareToIgnoreCase(b.getBookId());
+            }
+        });
+    }
+    // sap xep theo luot muon giam dan
+    public void sortBookByBorrowCount() {
+    Collections.sort(bookList, new Comparator<Book>() {
+        @Override
+        public int compare(Book a, Book b) {
+            return Integer.compare(b.getBorrowCount(), a.getBorrowCount()); 
+        }
+    });
+    System.out.println("Sorted by borrow count (descending) successfully!");
+}
 }
