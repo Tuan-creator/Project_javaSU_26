@@ -38,4 +38,9 @@ public class RegularMember extends Member {
         }
         return daysOverdue * 5000.0; 
     }
+    
+    @Override
+public String toString() {
+    return super.toString() + " | Regular";
+}
 }

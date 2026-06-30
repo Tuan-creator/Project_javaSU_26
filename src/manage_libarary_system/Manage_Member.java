@@ -18,7 +18,7 @@ public class  Manage_Member implements IMemberManager {
     }
     
     static Scanner sc = new Scanner(System.in);
-    private ArrayList<Member> memberList = new ArrayList<>();
+    public ArrayList<Member> memberList = new ArrayList<>();
 
     public void showMenu() {
         int choice = 0;

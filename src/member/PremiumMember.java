@@ -36,4 +36,13 @@ public class PremiumMember extends Member {
         }
         return daysOverdue * 2000.0; 
     }
+    
+   
+
+    @Override
+   public String toString() {
+    return super.toString() + " | Premium";
+}
+    
+    
 }

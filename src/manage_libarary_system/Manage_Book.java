@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import util.InputHelper;
 import util.ValidationBook;
 
@@ -16,7 +17,7 @@ public class Manage_Book implements IBookManager {
     this.borrowingManager = borrowingManager;
 }
     // Danh sách lưu trữ tất cả các cuốn sách trong thư viện
-    private  ArrayList<Book> bookList = new ArrayList<>();
+    public  ArrayList<Book> bookList = new ArrayList<>();
 
 
     

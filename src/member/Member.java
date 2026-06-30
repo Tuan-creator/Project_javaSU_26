@@ -92,7 +92,10 @@ public abstract class Member {
         this.email = email;
     }
 
-    
+     @Override
+  public String toString() {
+    return memberId + " | " + name + " | " + phone + " | " + email;
+   }
     
     
     public abstract double calculateFine(int daysOverdue);

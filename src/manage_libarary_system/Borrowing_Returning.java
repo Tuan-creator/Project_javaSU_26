@@ -11,7 +11,7 @@ import java.util.Comparator;
 
 public class Borrowing_Returning implements IBorrowingManager {
 
-      private ArrayList<Borrowing> listBorrow = new ArrayList<>();
+      public ArrayList<Borrowing> listBorrow = new ArrayList<>();
 //    private  ArrayList<Member> listMember = new ArrayList<>();
         private Manage_Book bookManager;
         private Manage_Member memberManager;

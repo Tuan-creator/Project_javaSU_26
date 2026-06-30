@@ -4,20 +4,25 @@ package ui;
 import manage_libarary_system.Borrowing_Returning;
 import manage_libarary_system.Manage_Book;
 import manage_libarary_system.Manage_Member;
+import util.FileHandler;
 import util.InputHelper; 
 
 public class Menu {
 
     public static void main(String[] args) {
+        FileHandler file=new FileHandler();
         Manage_Book bookManager = new Manage_Book();
         Manage_Member memberManager = new Manage_Member();
 
-        Borrowing_Returning borrowingManager = new Borrowing_Returning(bookManager, memberManager);
+       Borrowing_Returning borrowingManager = new Borrowing_Returning(bookManager, memberManager);
         
        bookManager.setBorrowingManager(borrowingManager);
        memberManager.setBorrowingManager(borrowingManager);
+                            
         
-        
+        file.readFileBook(bookManager.bookList);
+        file.readFileMember(memberManager.memberList);
+        file.readFileBorrowing(borrowingManager.listBorrow);
         
         int mainChoice = 0;
         
@@ -49,6 +54,9 @@ public class Menu {
                    break;
                     
                 case 4:
+                    file.writeToFileBook(bookManager.bookList);
+                    file.writeToFileMember(memberManager.memberList);
+                    file.writeToFileBorrowing(borrowingManager.listBorrow);
                     System.out.println("\nSaving data and shutting down system... Goodbye!");
                     break;
                     
