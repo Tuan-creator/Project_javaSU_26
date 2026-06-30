@@ -16,12 +16,10 @@ public class ValidationMember {
         
     }
     
-    public static boolean isValidName(String name)
-    {
-        return name!=null && name.trim().matches("^[a-zA-Z ]+$");
-    }
-    
-    
+ public static boolean isValidName(String name) {
+    return name != null
+            && name.trim().matches("^[a-zA-Z ]+$");
+}
        
       public static boolean isValidMemberId(String memberId) {
         return memberId != null 

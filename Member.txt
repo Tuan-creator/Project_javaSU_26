@@ -1,0 +1,2 @@
+M001 | Nguyen Thai Binh | 0345278965 | nguyenbinh@gmail.com | Premium
+M002 | Nguyen Hoang Nam | 0987654321 | hoangnam@gmail.com | Regular

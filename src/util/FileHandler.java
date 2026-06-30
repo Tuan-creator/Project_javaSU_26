@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.util.List;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -100,6 +101,11 @@ public class FileHandler {
        
        try
        {
+           File bookFile= new File("Book.txt");
+           if(!bookFile.exists())
+           {
+              return;
+           }
            FileReader fr= new FileReader("Book.txt");
            BufferedReader br= new BufferedReader(fr);
            String line="";
@@ -139,6 +145,12 @@ public class FileHandler {
    {
        try
        {
+           File memberFile= new File("Member.txt");
+           if(!memberFile.exists())
+           {
+               return;
+           }
+           
            FileReader fr= new FileReader("Member.txt");
            BufferedReader br= new BufferedReader(fr);
            
@@ -181,6 +193,11 @@ public class FileHandler {
    {
        try
        {
+           File borrowingFile= new File("Borrowing.txt");
+           if(!borrowingFile.exists())
+           {
+               return;
+           }
            FileReader fr= new FileReader("Borrowing.txt");
            BufferedReader br= new BufferedReader(fr);
            

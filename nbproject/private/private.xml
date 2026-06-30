@@ -4,11 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/member/PremiumMember.java</file>
-            <file>file:/D:/PRO192/Manage_Libarary_System/src/ui/Menu.java</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/manage_libarary_system/Manage_Libarary_System.java</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/report/Report.java</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/util/InputHelper.java</file>
-            <file>file:/D:/PRO192/Manage_Libarary_System/src/manage_libarary_system/Borrowing_Returning.java</file>
             <file>jar:file:/D:/PRO192/Manage_Libarary_System/src/util/Group%20project.pptx!/ppt/fonts/font21.fntdata</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/util/ValidationMember.java</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/manage_libarary_system/IMemberManager.java</file>
@@ -16,12 +14,9 @@
             <file>file:/D:/PRO192/Manage_Libarary_System/src/manage_libarary_system/Manage_Book.java</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/manage_libarary_system/IBorrowingManager.java</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/manage_libarary_system/IBookManager.java</file>
-            <file>file:/D:/PRO192/Manage_Libarary_System/src/book/Book.java</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/util/FileHandler.java</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/util/ValidationBook.java</file>
-            <file>file:/D:/PRO192/Manage_Libarary_System/src/member/Member.java</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/manage_libarary_system/Manage_Member.java</file>
-            <file>file:/D:/PRO192/Manage_Libarary_System/src/borrowing/Borrowing.java</file>
             <file>file:/D:/PRO192/Manage_Libarary_System/src/member/RegularMember.java</file>
         </group>
     </open-files>
