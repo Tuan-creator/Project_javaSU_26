@@ -226,7 +226,10 @@ public class  Manage_Member implements IMemberManager {
             }
             
             double fineValue = m.calculateFine(1);
-            int borrowedCount = borrowingManager.countCurrentyBorrwed(m.getMemberId());
+            int borrowedCount = 0;
+            if (borrowingManager != null) {
+                borrowedCount = borrowingManager.countCurrentyBorrwed(m.getMemberId());
+            }
             
             
             System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d | %-8d | %-10.1f\n", 
@@ -271,7 +274,10 @@ public class  Manage_Member implements IMemberManager {
                 }
                 
                 double fineValue = m.calculateFine(1);
-                int borrowedCount = borrowingManager.countCurrentyBorrwed(m.getMemberId());
+                int borrowedCount = 0;
+                if (borrowingManager != null) {
+                borrowedCount = borrowingManager.countCurrentyBorrwed(m.getMemberId());
+                }
                 
                 System.out.printf("%-8s | %-25s | %-15s | %-25s | %-12s | %-6d |%-8d | %-10.1f\n", 
                         m.getMemberId(), m.getName(), m.getPhone(), m.getEmail(), memberType, limitValue,borrowedCount, fineValue);
