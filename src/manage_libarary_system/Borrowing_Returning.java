@@ -8,9 +8,10 @@ import member.Member;
 import util.InputHelper;
 import java.util.Collections;
 import java.util.Comparator;
+import util.FileHandler;
 
 public class Borrowing_Returning implements IBorrowingManager {
-
+      FileHandler file= new FileHandler();
       public ArrayList<Borrowing> listBorrow = new ArrayList<>();
 //    private  ArrayList<Member> listMember = new ArrayList<>();
         private Manage_Book bookManager;
@@ -124,6 +125,9 @@ public class Borrowing_Returning implements IBorrowingManager {
         listBorrow.add(borrow);
         book.setQuantity(book.getQuantity()-1);
         book.setBorrowCount(book.getBorrowCount() + 1);
+        file.writeToFileBorrowing(listBorrow);
+        file.writeToFileBook(bookManager.bookList);
+       
         System.out.println("Borrow Book Successfully!");
     }
 
@@ -182,6 +186,8 @@ public class Borrowing_Returning implements IBorrowingManager {
         {
             book.setQuantity(book.getQuantity()+1);
         }
+         file.writeToFileBorrowing(listBorrow);
+        file.writeToFileBook(bookManager.bookList);
         
         System.out.println("Return Book Successfully!");
     }

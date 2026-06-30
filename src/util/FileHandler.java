@@ -199,10 +199,10 @@ public class FileHandler {
                String[] borrowing=line.split("\\|");
                String transactionId=borrowing[0].trim();
                String memberId=borrowing[1].trim();
-               String nemberName=borrowing[2].trim();
-               String email=borrowing[3].trim();
-               String phone=borrowing[4].trim();
-               String bookId=borrowing[5].trim();
+               String bookId=borrowing[2].trim();
+               String memberName=borrowing[3].trim();
+               String email=borrowing[4].trim();
+               String phone =borrowing[5].trim();
                LocalDate borrowDate=LocalDate.parse(borrowing[6].trim());
                LocalDate dueDate=LocalDate.parse(borrowing[7].trim());
                

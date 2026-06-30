@@ -7,9 +7,12 @@ import java.util.Scanner;
 import member.Member;
 import member.RegularMember;
 import member.PremiumMember; 
+import util.FileHandler;
 import util.InputHelper;
 
 public class  Manage_Member implements IMemberManager {
+    private FileHandler file=new FileHandler();
+    
     private Borrowing_Returning borrowingManager; 
     
     public void setBorrowingManager(Borrowing_Returning borrowingManager) 
@@ -120,6 +123,7 @@ public class  Manage_Member implements IMemberManager {
             }
             
             memberList.add(newMem);
+            file.writeToFileMember(memberList);
             System.out.println("Add Member Successfully!");
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
@@ -160,7 +164,8 @@ public class  Manage_Member implements IMemberManager {
             if (!newEmail.isEmpty()) {
                 m.setEmail(newEmail);
             }
-
+            
+            file.writeToFileMember(memberList);
             System.out.println("Update Member Successfully!");
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage() + " Update canceled.");
@@ -191,6 +196,7 @@ public class  Manage_Member implements IMemberManager {
         }
         
         memberList.remove(m);
+        file.writeToFileMember(memberList);
         System.out.println("Remove Member Successfully!");
     }
 

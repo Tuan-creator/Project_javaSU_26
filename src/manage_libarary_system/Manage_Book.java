@@ -6,11 +6,13 @@ import java.util.Scanner;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import util.FileHandler;
 import util.InputHelper;
 import util.ValidationBook;
 
 public class Manage_Book implements IBookManager {
     
+    private FileHandler file=new FileHandler();
     private Borrowing_Returning borrowingManager;
     static Scanner sc = new Scanner(System.in);
     public void setBorrowingManager(Borrowing_Returning borrowingManager) {
@@ -100,6 +102,7 @@ public class Manage_Book implements IBookManager {
 
             Book newBook = new Book(bookId, title, author, genre, pubYear, quantity);
             bookList.add(newBook);
+            file.writeToFileBook(bookList);
             System.out.println("Add Book Successfully!");
         } catch (IllegalArgumentException e) {
             System.out.println("\nValidation Error: " + e.getMessage() + " Action canceled.");
@@ -138,6 +141,7 @@ public class Manage_Book implements IBookManager {
                 case 1:
                     int additionalQty = InputHelper.Quantity();
                     book.setQuantity(book.getQuantity() + additionalQty);
+                    file.writeToFileBook(bookList);
                     System.out.println("Increased Quantity Successfully! New Info: " + book);
                     break;
                 case 2:
@@ -146,6 +150,7 @@ public class Manage_Book implements IBookManager {
                     book.setGenre(InputHelper.Genre());
                     book.setPubYear(InputHelper.Year());
                     book.setQuantity(InputHelper.Quantity());
+                    file.writeToFileBook(bookList);
                     System.out.println("Update Book Profile Successfully!");
                     break;
                 default:
@@ -198,6 +203,7 @@ public class Manage_Book implements IBookManager {
 
         if (deleteQty == currentQty) {
             bookList.remove(book);
+            file.writeToFileBook(bookList);
             System.out.println("Book has been completely removed from the library!");
         } else {
             book.setQuantity(currentQty - deleteQty);
